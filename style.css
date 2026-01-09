@@ -3,3 +3,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+#boardGame {
+    display: flex;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(5, 0fr);
+}
+
+.quadrado {
+    width: 75px;
+    height: 75px;
+    border: 4px solid black;
+    border-radius: 10px;
+}
