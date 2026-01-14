@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LightBot Game From Luan and Davi</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
@@ -39,13 +40,14 @@
             <div class="square square25"></div>
         </div>
         <div class="controls">
-            <button id="resetBtn" onclick="">Resetar</button>
-            <button id="undoBtn" onclick="">Apagar</button>
-            <button id="moveForwardBtn" onclick="">Andar para frente</button>
-            <button id="turnLeftBtn" onclick="">Virar à esquerda</button>
-            <button id="turnRightBtn" onclick="">Virar à direita</button>
-            <button id="lightOnBtn" onclick="">Acender a luz</button>
-            <button id="executeBtn" onclick="">Executar</button>
+            <input type="text" disabled id="display"/>
+            <button id="resetBtn" onclick=""><i class="bi bi-eraser"></i></button>
+            <button id="undoBtn" onclick=""><i class="bi bi-backspace"></i></button>
+            <button id="moveForwardBtn" onclick=""><i class="bi bi-arrow-up"></i></button>
+            <button id="turnLeftBtn" onclick=""><i class="bi bi-arrow-90deg-left"></i></button>
+            <button id="turnRightBtn" onclick=""><i class="bi bi-arrow-90deg-right"></i></button>
+            <button id="lightOnBtn" onclick=""><i class="bi bi-lightbulb-fill"></i></button>
+            <button id="executeBtn" onclick=""><i class="bi bi-play"></i></button>
         </div>
 
     </main>
