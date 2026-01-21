@@ -1,4 +1,15 @@
+// FAZER CADA QUADRADO OCUPAR UMA LINHA E UMA COLUNA DEFINIDAS PARA ALTERAR A POSIÇÃO DO JOGADOR
+const squares = document.querySelectorAll('.square');
 
+let squarePosition = 0;
+let matrix = [];
+for (let i = 0; i < 5; i++) {
+  matrix[i] = [];
+  for (let j = 0; j < 5; j++) {
+    matrix[i][j] = squares[squarePosition];
+    squarePosition++;
+  }
+}
 
 //
 
