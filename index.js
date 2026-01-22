@@ -1,7 +1,6 @@
 const grid = document.getElementById("grid");
 
-const squares = [];
-let playerPosition = 0;
+const squaresArray = [];
 let gameRunning = true;
 let level = 0;
 
@@ -47,13 +46,13 @@ function createBoard(){
             addMapElement(square, char, i, j);
 
             grid.appendChild(square);
-            square.push(square);
+            squaresArray.push(square);
         }
     }
 }
 createBoard();
 
-console.log(square);
+console.log(squaresArray);
 
 function addMapElement(square, char, i, j){
     switch(char){
@@ -73,7 +72,7 @@ function addMapElement(square, char, i, j){
             square.classList.add('ground-empty');
             break;      
     }
-
+}
 
 
 
@@ -115,6 +114,8 @@ let left = '<i class= \'bi bi-arrow-90deg-left\'></i>';
 let reset = '<i class= \'bi bi-eraser\'></i>';
 let undo = '<i class= \'bi bi-backspace\'></i>';
 let light = '<i class= \'bi bi-lightbulb-fill\'></i>';
+let proc1 = '<span>P1</span>';
+let proc2 = '<span>P2</span>';
 let counter = 0;
 let displayMain = document.querySelector('#displayMain');
 
