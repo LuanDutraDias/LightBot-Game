@@ -101,10 +101,44 @@ function movePlayer() {
     // desenha na nova posição 
     renderPlayer();
 }
-renderPlayer();
-//movePlayer();
 
+function turnLeft() {
+    if (player.direction === 'up') player.direction = 'left';
+    else if (player.direction === 'left') player.direction = 'down';
+    else if (player.direction === 'down') player.direction = 'right';
+    else if (player.direction === 'right') player.direction = 'up';
+}
 
+function turnRight() {
+    if (player.direction === 'up') player.direction = 'right';
+    else if (player.direction === 'right') player.direction = 'down';
+    else if (player.direction === 'down') player.direction = 'left';
+    else if (player.direction === 'left') player.direction = 'up';
+}
+
+function executeCommands() { 
+    delay = 0; // tempo entre comandos em ms
+    for (let cmd of commandsToExecute) { 
+        setTimeout(() => {
+        if (cmd === 'forward') movePlayer(); 
+        if (cmd === 'left') turnLeft(); 
+        if (cmd === 'right') turnRight(); 
+        if (cmd === 'light') { 
+            // exemplo: acender luz 
+            console.log("Acendeu a luz!");
+            const square = document.getElementById(`square-${player.row}-${player.column}`); 
+            document.documentElement.style.setProperty("--light-color", "yellow");
+        } 
+    }, delay); 
+    
+    delay += 500; // meio segundo entre cada comando 
+
+    }
+}
+
+renderPlayer(); 
+// quando clicar no botão de executar: 
+document.querySelector('#executeBtn').addEventListener('click', executeCommands);
 
 let commandsToExecute = [];
 let commandsToAppear = [];
