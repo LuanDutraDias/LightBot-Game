@@ -167,10 +167,15 @@ function executeCommands() {
             turnRight(); 
         } 
         if (cmd === 'light') { 
-            // exemplo: acender luz 
+            // exemplo: acender luz
             console.log("Acendeu a luz!");
-            const square = document.getElementById(`square-${player.row}-${player.column}`); 
-            document.documentElement.style.setProperty("--light-color", "yellow");
+            const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
+            if (currentSquare.style.backgroundColor == 'rgb(255, 255, 0)'){
+                currentSquare.style.backgroundColor = '';
+            }
+            else {
+                currentSquare.style.backgroundColor = 'rgb(255, 255, 0)';
+            }
         } 
     }, delay); 
     

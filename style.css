@@ -201,7 +201,7 @@ aside {
 }
 
 .ground-low {
-    background-color: brown;
+    background-color: rgb(226, 11, 11);
 }
 .ground-medium {
     background-color: sienna;
@@ -210,8 +210,8 @@ aside {
     background-color: peru;
 }
 .ground-light {
-    background-color: rgb(106, 106, 0);
+    background-color: gray;
 }
 .ground-empty {
-    background-color: lightblue;
+    background-color: white;
 }
