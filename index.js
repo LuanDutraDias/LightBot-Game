@@ -163,7 +163,7 @@ function turnRight() {
 
 function executeCommands() { 
     let delay = 0; // tempo entre comandos em ms 
-    for (let cmd of commandsToExecute) { 
+    for (let cmd of commandsToExecute) { //pega cada comando do array conforme o loop em que esta e coloca em cmd
         // se for P1, expande os comandos de P1 
         if (cmd === 'p1') { 
             for (let subCmd of commandsToExecuteP1) { 
