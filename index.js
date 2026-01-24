@@ -72,7 +72,7 @@ function addMapElement(square, char, i, j){
 
         case 'a':
             square.classList.add('ground-low');
-            square.style.backgroundColor = 'rgb(226, 11, 11)';
+            square.style.backgroundColor = 'lime';
             break;
         case 'b':
             square.classList.add('ground-medium');
@@ -205,7 +205,7 @@ function runCommand(cmd) {
         console.log("Acendeu a luz!"); 
         const currentSquare = document.getElementById(`square-${player.row}-${player.column}`); 
         if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-low')){ 
-            currentSquare.style.backgroundColor = 'rgb(226, 11, 11)'; 
+            currentSquare.style.backgroundColor = 'lime'; 
         }
         else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-medium')){ 
             currentSquare.style.backgroundColor = 'sienna'; 
@@ -415,19 +415,23 @@ function allTilesHaveBeenLit(){
 
 function levelResult(){
     const feedback = document.createElement('p');
+    feedback.classList.add('feedbackMessage');
     body.appendChild(feedback);
-    feedback.style.position = 'fixed';
-    feedback.style.inset = '0';
+    feedback.style.textShadow = '5px 5px 5px black, 2px -2px 0px black, -2px -2px 0px black, -2px 2px 0px black';
     feedback.style.display = 'flex';
+    feedback.style.gridRow = '1 / 4';
+    feedback.style.gridColumn = '1 / 3';
     feedback.style.justifyContent = 'center';
     feedback.style.alignItems = 'center';
-    feedback.style.fontSize = '50px';
+    feedback.style.fontSize = '150px';
     feedback.style.zIndex = '999';
     if(allTilesHaveBeenLit() == true){
-        feedback.textContent = 'Parabéns, você conseguiu!';
+        feedback.style.color = 'yellow';
+        feedback.textContent = 'LEVEL CLEAR';
     }
     else {
-        feedback.textContent = 'Você perdeu, vai desistir IGUAL VOCÊ SEMPRE DESISTE?';
+        feedback.style.color = 'red';
+        feedback.textContent = 'GAME OVER';
         restartLevel();
     }
 }
