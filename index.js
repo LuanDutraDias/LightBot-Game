@@ -227,7 +227,7 @@ function runCommand(cmd) {
 
 function isTheSquareSafe(){
     const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
-    if (currentSquare.style.backgroundColor == 'white'){
+    if (currentSquare.classList.contains('ground-empty')){
         restartLevel();
         return false;
     }
@@ -413,7 +413,7 @@ function allTilesHaveBeenLit(){
     return allLightsOn;
 }
 
-function levelResult(){
+function createFeedback(){
     const feedback = document.createElement('p');
     feedback.classList.add('feedbackMessage');
     body.appendChild(feedback);
@@ -425,6 +425,11 @@ function levelResult(){
     feedback.style.alignItems = 'center';
     feedback.style.fontSize = '150px';
     feedback.style.zIndex = '999';
+    return feedback;
+}
+
+function levelResult(){
+    const feedback = createFeedback();
     if(allTilesHaveBeenLit() == true){
         feedback.style.color = 'yellow';
         feedback.textContent = 'LEVEL CLEAR';
