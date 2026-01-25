@@ -246,10 +246,7 @@ function runCommand(cmd) {
         }
         else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-light')){ 
             currentSquare.style.backgroundColor = 'gray'; 
-        }
-        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-empty')){ 
-            currentSquare.style.backgroundColor = 'white'; 
-        }    
+        }   
         else { 
             currentSquare.style.backgroundColor = 'yellow'; 
         } 
@@ -441,6 +438,27 @@ function restartLevel(){
     feedback.classList.add('hidden');
     const tryAgainButton = document.querySelector('#tryAgainBtn');
     tryAgainButton.classList.add('hidden');
+}
+
+function skipLevel(){
+    console.log('skip');
+    player.alive = true;
+    gameRunning = false;
+    timeouts.forEach(id => clearTimeout(id));
+    timeouts = [];
+    level++
+    createBoard();
+    resetPlayerPosition();
+    renderPlayer();
+    resetCommands();
+    const resultOverlay = document.querySelector('#resultOverlay');
+    resultOverlay.classList.add('hidden');
+    const feedback = document.querySelector('#feedback');
+    feedback.classList.add('hidden');
+    const tryAgainButton = document.querySelector('#tryAgainBtn');
+    tryAgainButton.classList.add('hidden');
+    const skipLevelButton = document.querySelector('#skipLevelBtn');
+    skipLevelButton.classList.add('hidden');
 }
 
 function allTilesHaveBeenLit(){
