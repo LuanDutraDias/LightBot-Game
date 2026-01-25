@@ -4,7 +4,7 @@ const grid = document.querySelector('#grid');
 // CRIAR ROBÔ;
 const robot = document.createElement('i');
 robot.classList.add('bi', 'bi-android2');
-robot.style.paddingTop = '5px';
+robot.classList.add('robot-style');
 
 // POSIÇÃO DO JOGADOR E A DIREÇÃO PARA ONDE ELE ESTÁ OLHANDO
 const player = {
@@ -86,11 +86,10 @@ function addMapElement(square, char, i, j){
             break;  
         case 'd':
             square.classList.add('ground-light');
-            square.style.backgroundColor = 'gray';
+            square.style.backgroundColor = 'white';
             break;      
         case 'e':
             square.classList.add('ground-empty');
-            square.style.backgroundColor = 'white';
             break;      
     }
 }

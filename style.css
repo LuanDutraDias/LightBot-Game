@@ -56,11 +56,6 @@ main {
     align-items: center;
 }
 
-.square i {
-    font-size: 60px;
-    color: black;
-}
-
 .controls {
     grid-row: 3 / 4;
     grid-column: 1 / 2;
@@ -242,4 +237,24 @@ footer {
 
 .hidden {
     display: none;
+}
+
+.ground-empty {
+    background: red;
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 40%, rgba(255, 255, 255, 1) 50%, rgba(8, 0, 0, 1) 100%);
+}
+
+.robot-style {
+    padding-top: 5px;
+    font-size: 60px;
+    color: white;
+    text-shadow:
+    -2px -2px 0 #000,
+    0 -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 0 0 #000,
+    2px 0 0 #000,
+    -2px 2px 0 #000,
+    0 2px 0 #000,
+    2px 2px 0 #000;
 }
