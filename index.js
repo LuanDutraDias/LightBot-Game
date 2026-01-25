@@ -400,6 +400,12 @@ function restartLevel(){
     resetPlayerPosition();
     renderPlayer();
     resetCommands();
+    const resultOverlay = document.querySelector('#resultOverlay');
+    resultOverlay.classList.add('hidden');
+    const feedback = document.querySelector('#feedback');
+    feedback.classList.add('hidden');
+    const tryAgainButton = document.querySelector('#tryAgainBtn');
+    tryAgainButton.classList.add('hidden');
 }
 
 function allTilesHaveBeenLit(){
@@ -413,30 +419,27 @@ function allTilesHaveBeenLit(){
     return allLightsOn;
 }
 
-function createFeedback(){
-    const feedback = document.createElement('p');
-    feedback.classList.add('feedbackMessage');
-    body.appendChild(feedback);
-    feedback.style.textShadow = '5px 5px 5px black, 2px -2px 0px black, -2px -2px 0px black, -2px 2px 0px black';
-    feedback.style.display = 'flex';
-    feedback.style.gridRow = '1 / 4';
-    feedback.style.gridColumn = '1 / 3';
-    feedback.style.justifyContent = 'center';
-    feedback.style.alignItems = 'center';
-    feedback.style.fontSize = '150px';
-    feedback.style.zIndex = '999';
-    return feedback;
-}
-
 function levelResult(){
-    const feedback = createFeedback();
+    const resultOverlay = document.querySelector('#resultOverlay');
+    resultOverlay.classList.add('hidden');
+    const feedback = document.querySelector('#feedback');
+    feedback.classList.add('hidden');
+    const tryAgainButton = document.querySelector('#tryAgainBtn');
+    tryAgainButton.classList.add('hidden');
+    const skipLevelButton = document.querySelector('#skipLevelBtn');
+    skipLevelButton.classList.add('hidden');
     if(allTilesHaveBeenLit() == true){
         feedback.style.color = 'yellow';
         feedback.textContent = 'LEVEL CLEAR';
+        resultOverlay.classList.remove('hidden');
+        feedback.classList.remove('hidden');
+        skipLevelButton.classList.remove('hidden');
     }
     else {
         feedback.style.color = 'red';
         feedback.textContent = 'GAME OVER';
-        restartLevel();
+        resultOverlay.classList.remove('hidden');
+        feedback.classList.remove('hidden');
+        tryAgainButton.classList.remove('hidden');
     }
 }
