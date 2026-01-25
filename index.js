@@ -11,6 +11,7 @@ const player = {
     alive: true,
     row: 0,
     column: 0,
+    high: 0,
     direction: 'down', //up | right | down | left
 };
 
@@ -24,7 +25,7 @@ const maps = [
     //level 1
     [
         'aaeee',
-        'eaeee',
+        'ebeee',
         'eaead',
         'eaeae',
         'eaaae',
@@ -215,7 +216,7 @@ function runCommand(cmd) {
     if (player.alive == false){
         return;
     }
-    if (cmd === 'forward') {
+    if (cmd === 'forward' && isTheNextSquareLowerOrEqualPlayerHigh() == true) {
         movePlayer();
         if (isTheSquareSafe() == false) {
             player.alive = false;
@@ -260,6 +261,76 @@ function isTheSquareSafe(){
     }
     else {
         return true;
+    }
+}
+
+function updateCurrentPlayerHigh(){
+    const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
+    if (currentSquare.classList.contains('ground-empty') || currentSquare.classList.contains('.ground-low')){
+        player.high = 0;
+    }
+    else if (currentSquare.classList.contains('ground-medium')){
+        player.high = 1;
+    }
+    else if (currentSquare.classList.contains('ground-high')){
+        player.high = 2;
+    }
+}
+
+function nextSquareHigh(){
+    if (player.direction === 'up'){
+        if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-low')){
+            return 0;
+        }
+        else if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-medium')){
+            return 1;
+        }
+        else if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-high')){
+            return 2;
+        }
+    }
+    else if (player.direction === 'down'){
+        if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-low')){
+            return 0;
+        }
+        else if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-medium')){
+            return 1;
+        }
+        else if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-high')){
+            return 2;
+        } 
+    } 
+    else if (player.direction === 'left'){
+        if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-low')){
+            return 0;
+        }
+        else if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-medium')){
+            return 1;
+        }
+        else if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-high')){
+            return 2;
+        } 
+    } 
+    else if (player.direction === 'right'){
+        if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-low')){
+            return 0;
+        }
+        else if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-medium')){
+            return 1;
+        }
+        else if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-high')){
+            return 2;
+        } 
+    } 
+}
+
+function isTheNextSquareLowerOrEqualPlayerHigh(){
+    updateCurrentPlayerHigh();
+    if (player.high >= nextSquareHigh()){
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
