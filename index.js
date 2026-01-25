@@ -124,8 +124,8 @@ function movePlayer() {
 }
 
 let currentAngle = 0;
-robot.style.transition = 'transform 1s ease';
 function turnLeft() {
+    robot.style.transition = 'transform 1s ease';
     if (player.direction === 'up'){
         player.direction = 'left';
         currentAngle -= 90;
@@ -149,6 +149,7 @@ function turnLeft() {
 }
 
 function turnRight() {
+    robot.style.transition = 'transform 1s ease';
     if (player.direction === 'up'){
         player.direction = 'right';
         currentAngle += 90;
@@ -222,7 +223,11 @@ function runCommand(cmd) {
             gameRunning = false;
             timeouts.forEach(id => clearTimeout(id));
             timeouts = [];
-            levelResult();
+            setTimeout(() => {
+                robot.style.transition = 'transform 1.5s ease';
+                robot.style.transform = 'scale(0) rotate(360deg)';
+            }, 650)
+            setTimeout(() => levelResult(), 1800);
             return;
         }
     }     
@@ -406,7 +411,8 @@ function resetPlayerPosition(){
     player.row = 0;
     player.column = 0;
     player.direction = 'down';
-    robot.style.transform = 'rotate(0deg)';
+    robot.style.transform = 'scale(1) rotate(0deg)';
+
 }
 
 function resetCommands(){
