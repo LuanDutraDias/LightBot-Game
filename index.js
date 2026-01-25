@@ -8,13 +8,15 @@ robot.style.paddingTop = '5px';
 
 // POSIÇÃO DO JOGADOR E A DIREÇÃO PARA ONDE ELE ESTÁ OLHANDO
 const player = {
+    alive: true,
     row: 0,
     column: 0,
     direction: 'down', //up | right | down | left
 };
 
 const squaresArray = [];
-let gameRunning = true;
+let timeouts = [];
+let gameRunning = false;
 let level = 0;
 
 //a= chao baixo| b= chao medio| c= chao alto| d= chao da luz | e= chao vazio
@@ -169,36 +171,61 @@ function turnRight() {
     } 
 }
 
-function executeCommands() { 
+function executeCommands() {
+    if (gameRunning == true) return;
+    if (player.alive == false) return;
+    gameRunning = true; 
     let delay = 0; // tempo entre comandos em ms 
     for (let cmd of commandsToExecuteOnMain) { //pega cada comando do array conforme o loop em que esta e coloca em cmd
         // se for P1, expande os comandos de P1 
         if (cmd === 'p1') { 
             for (let subCmd of commandsToExecuteOnP1) { 
-                setTimeout(() => runCommand(subCmd), delay); 
+                const id = setTimeout(() => runCommand(subCmd), delay);
+                timeouts.push(id); 
                 delay += (subCmd === 'forward') ? 600 : 1200; //se é 'forward', espera 600ms, senão espera 1200ms
             } 
         } 
         // se for P2, expande os comandos de P2 
         else if (cmd === 'p2') { 
             for (let subCmd of commandsToExecuteOnP2) { 
-                setTimeout(() => runCommand(subCmd), delay); 
+                const id = setTimeout(() => runCommand(subCmd), delay);
+                timeouts.push(id); 
                 delay += (subCmd === 'forward') ? 600 : 1200;
             } 
         } 
         // comandos normais 
         else{ 
-            setTimeout(() => runCommand(cmd), delay); 
+            const id = setTimeout(() => runCommand(cmd), delay);
+            timeouts.push(id); 
             delay += (cmd === 'forward') ? 600 : 1200;
         } 
     }
     delay += 1200;
-    setTimeout(() => levelResult(), delay); 
+    const endId = setTimeout(() => {
+        gameRunning = false;
+        if (player.alive == true){
+            levelResult();
+        }    
+    }, delay);
+    timeouts.push(endId);   
 } 
 
 // função para rodar um comando 
 function runCommand(cmd) { 
-    if (cmd === 'forward') movePlayer(); 
+    if (player.alive == false){
+        return;
+    }
+    if (cmd === 'forward') {
+        movePlayer();
+        if (isTheSquareSafe() == false) {
+            player.alive = false;
+            gameRunning = false;
+            timeouts.forEach(id => clearTimeout(id));
+            timeouts = [];
+            levelResult();
+            return;
+        }
+    }     
     if (cmd === 'left') turnLeft(); 
     if (cmd === 'right') turnRight(); 
     if (cmd === 'light') { 
@@ -228,7 +255,6 @@ function runCommand(cmd) {
 function isTheSquareSafe(){
     const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
     if (currentSquare.classList.contains('ground-empty')){
-        restartLevel();
         return false;
     }
     else {
@@ -396,6 +422,10 @@ function resetCommands(){
 }
 
 function restartLevel(){
+    player.alive = true;
+    gameRunning = false;
+    timeouts.forEach(id => clearTimeout(id));
+    timeouts = [];
     createBoard();
     resetPlayerPosition();
     renderPlayer();
@@ -428,7 +458,7 @@ function levelResult(){
     tryAgainButton.classList.add('hidden');
     const skipLevelButton = document.querySelector('#skipLevelBtn');
     skipLevelButton.classList.add('hidden');
-    if(allTilesHaveBeenLit() == true){
+    if(allTilesHaveBeenLit() == true && player.alive == true){
         feedback.style.color = 'yellow';
         feedback.textContent = 'LEVEL CLEAR';
         resultOverlay.classList.remove('hidden');
