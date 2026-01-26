@@ -12,7 +12,7 @@ const player = {
     row: 0,
     column: 0,
     high: 0,
-    direction: 'down', //up | right | down | left
+    direction: 'right', //up | right | down | left
 };
 
 const squaresArray = [];
@@ -99,6 +99,13 @@ function addMapElement(square, char, i, j){
 function renderPlayer() { 
     const square = document.getElementById(`square-${player.row}-${player.column}`); 
     square.appendChild(robot);
+
+    let angle = 0;
+    if (player.direction === 'up') angle = -90; 
+    if (player.direction === 'down') angle = 90; 
+    if (player.direction === 'left') angle = 180; 
+    if (player.direction === 'right') angle = 0; 
+    robot.style.transform = `rotate(${angle}deg)`;
 }
 renderPlayer(); 
 
@@ -126,50 +133,35 @@ function movePlayer() {
 let currentAngle = 0;
 function turnLeft() {
     robot.style.transition = 'transform 1s ease';
-    if (player.direction === 'up'){
-        player.direction = 'left';
-        currentAngle -= 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    }    
-    else if (player.direction === 'left'){
-        player.direction = 'down';
-        currentAngle -= 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    }
-    else if (player.direction === 'down'){
-        player.direction = 'right';
-        currentAngle -= 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    }
-    else if (player.direction === 'right'){
-        player.direction = 'up';
-        currentAngle -= 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    } 
+
+    if (player.direction === 'up') player.direction = 'left'; 
+    else if (player.direction === 'left') player.direction = 'down'; 
+    else if (player.direction === 'down') player.direction = 'right'; 
+    else if (player.direction === 'right') player.direction = 'up'; 
+    // aplica rotação na tela 
+    let angle = 0; 
+    if (player.direction === 'up') angle = -90; 
+    if (player.direction === 'down') angle = 90; 
+    if (player.direction === 'left') angle = 180; 
+    if (player.direction === 'right') angle = 0; 
+    
+    robot.style.transform = `rotate(${angle}deg)`;
 }
 
 function turnRight() {
     robot.style.transition = 'transform 1s ease';
-    if (player.direction === 'up'){
-        player.direction = 'right';
-        currentAngle += 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    } 
-    else if (player.direction === 'right'){
-        player.direction = 'down';
-        currentAngle += 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    } 
-    else if (player.direction === 'down'){
-        player.direction = 'left';
-        currentAngle += 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    } 
-    else if (player.direction === 'left'){
-        player.direction = 'up';
-        currentAngle += 90;
-        robot.style.transform = `rotate(${currentAngle}deg)`;
-    } 
+    if (player.direction === 'up') player.direction = 'right'; 
+    else if (player.direction === 'right') player.direction = 'down'; 
+    else if (player.direction === 'down') player.direction = 'left'; 
+    else if (player.direction === 'left') player.direction = 'up'; 
+    
+    let angle = 0; 
+    if (player.direction === 'up') angle = -90; 
+    if (player.direction === 'down') angle = 90; 
+    if (player.direction === 'left') angle = 180; 
+    if (player.direction === 'right') angle = 0; 
+    
+    robot.style.transform = `rotate(${angle}deg)`; 
 }
 
 function executeCommands() {
@@ -211,13 +203,13 @@ function executeCommands() {
     timeouts.push(endId);   
 } 
 
-// função para rodar um comando 
 function runCommand(cmd) { 
     if (player.alive == false){
         return;
     }
     if (((cmd === 'forward' && isTheNextSquareLowerOrEqualPlayerHigh() == true) || (cmd === 'jump' && isTheNextSquareLowerOrEqualPlayerHigh() == false)) && isTheNextSquareOnTheMap() == true) {
         movePlayer();
+        updateCurrentPlayerHigh()
         if (isTheSquareSafe() == false) {
             player.alive = false;
             gameRunning = false;
@@ -514,9 +506,12 @@ function addP2Commands(command){
 function resetPlayerPosition(){
     player.row = 0;
     player.column = 0;
-    player.direction = 'down';
-    robot.style.transform = 'scale(1) rotate(0deg)';
-
+    player.direction = 'right';
+    if (player.direction === 'up') currentAngle = -90; 
+    if (player.direction === 'down') currentAngle = 90; 
+    if (player.direction === 'left') currentAngle = 180; 
+    if (player.direction === 'right') currentAngle = 0; 
+    robot.style.transform = `scale(1) rotate(${currentAngle}deg)`;
 }
 
 function resetCommands(){
