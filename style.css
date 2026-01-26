@@ -229,6 +229,19 @@ footer {
     z-index: 999;
 }
 
+#resultOverlay p {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 5px 5px 5px black;
+    border-radius: 10px;
+
+}
+
+#resultOverlay p.hidden {
+    display: none;
+}
+
 #resultOverlay button:hover {
     transform: scale(1.015);
     cursor: pointer;
@@ -247,7 +260,7 @@ footer {
     font-size: 150px;
 }
 
-.hidden {
+#resultOverlay button.hidden {
     display: none;
 }
 

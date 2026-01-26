@@ -582,6 +582,8 @@ function restartLevel(){
     feedback.classList.add('hidden');
     const tryAgainButton = document.querySelector('#tryAgainBtn');
     tryAgainButton.classList.add('hidden');
+    const skipLevelButton = document.querySelector('#skipLevelBtn');
+    skipLevelButton.classList.add('hidden');
 }
 
 function skipLevel(){
@@ -643,6 +645,7 @@ function levelResult(){
         resultOverlay.classList.remove('hidden');
         feedback.classList.remove('hidden');
         tryAgainButton.classList.remove('hidden');
+        skipLevelButton.classList.remove('hidden');
     }
 }
 
