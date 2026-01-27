@@ -5,6 +5,11 @@ const robot = document.createElement('i');
 robot.classList.add('bi', 'bi-android2');
 robot.classList.add('robot-style');
 
+const resultOverlay = document.querySelector('#resultOverlay');
+const feedback = document.querySelector('#feedback');
+const tryAgainButton = document.querySelector('#tryAgainBtn');
+const skipLevelButton = document.querySelector('#skipLevelBtn');
+
 const player = {
     alive: true,
     angle: 0,
@@ -102,10 +107,18 @@ function movePlayer() {
     const oldSquare = document.getElementById(`square-${player.row}-${player.column}`); 
     oldSquare.innerHTML = ''; 
     
-    if (player.direction === 'up') player.row--;
-    if (player.direction === 'down') player.row++; 
-    if (player.direction === 'left') player.column--;  
-    if (player.direction === 'right') player.column++; 
+    if (player.direction === 'up'){
+        player.row--;
+    }    
+    if (player.direction === 'down'){
+        player.row++; 
+    } 
+    if (player.direction === 'left'){
+        player.column--;  
+    } 
+    if (player.direction === 'right'){
+        player.column++; 
+    } 
     renderPlayer();
     updateCurrentPlayerHigh();
 }
@@ -153,20 +166,22 @@ function turnRight() {
 }
 
 function executeCommands() {
-    if (gameRunning || player.alive == false) return;
+    if (gameRunning || player.alive == false){
+        return;
+    } 
     gameRunning = true; 
     let delay = 0;
 
     for (let cmd of commandsToExecuteOnMain){
-        if (cmd === 'p1') { 
-            for (let subCmd of commandsToExecuteOnP1) { 
+        if (cmd === 'p1'){ 
+            for (let subCmd of commandsToExecuteOnP1){ 
                 const id = setTimeout(() => runCommand(subCmd), delay);
                 timeouts.push(id); 
                 delay += (subCmd === 'forward' || subCmd === 'jump') ? 600 : 1200;
             } 
         } 
-        else if (cmd === 'p2') { 
-            for (let subCmd of commandsToExecuteOnP2) { 
+        else if (cmd === 'p2'){ 
+            for (let subCmd of commandsToExecuteOnP2){ 
                 const id = setTimeout(() => runCommand(subCmd), delay);
                 timeouts.push(id); 
                 delay += (subCmd === 'forward' || subCmd === 'jump') ? 600 : 1200;
@@ -202,25 +217,32 @@ function runCommand(cmd) {
     if (player.alive == false){
         return;
     }
-   if (cmd === 'forward' && isTheNextSquareOnTheMap()) { 
-    if (isTheNextSquareLowerOrEqualPlayerHigh()) { 
+    else if (cmd === 'forward' && isTheNextSquareOnTheMap()){ 
+        if (isTheNextSquareLowerOrEqualPlayerHigh()){ 
         movePlayer(); 
         updateCurrentPlayerHigh(); 
-        if (isTheSquareSafe() == false) handleDeath(); 
+            if (isTheSquareSafe() == false){
+            handleDeath(); 
+            } 
         } 
     } 
-    if (cmd === 'jump' && isTheNextSquareOnTheMap()) { 
+    else if (cmd === 'jump' && isTheNextSquareOnTheMap()){ 
         const nextHigh = nextSquareHigh();
-        if (player.high != nextHigh) { 
-        movePlayer(); 
+        if (player.high != nextHigh){ 
+            movePlayer(); 
         } 
-    updateCurrentPlayerHigh(); 
-    if (!isTheSquareSafe()) handleDeath(); 
+        updateCurrentPlayerHigh(); 
+        if (isTheSquareSafe() == false){
+            handleDeath(); 
+        }    
     }
-
-    if (cmd === 'left') turnLeft(); 
-    if (cmd === 'right') turnRight(); 
-    if (cmd === 'light') { 
+    else if (cmd === 'left'){
+        turnLeft(); 
+    }
+    else if (cmd === 'right'){
+        turnRight(); 
+    } 
+    else if (cmd === 'light'){ 
         const currentSquare = document.getElementById(`square-${player.row}-${player.column}`); 
         if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-low')){ 
             currentSquare.style.background = 'linear-gradient(to top, green, mediumseagreen)'; 
@@ -387,18 +409,18 @@ let commandsToAppearOnP2 = [];
 let counter = 0;
 let counterP1 = 0;
 let counterP2 = 0;
-let displayMain = document.querySelector('#displayMain');
-let displayP1 = document.querySelector('#displayP1');
-let displayP2 = document.querySelector('#displayP2');
+const displayMain = document.querySelector('#displayMain');
+const displayP1 = document.querySelector('#displayP1');
+const displayP2 = document.querySelector('#displayP2');
 
 function transformCommands(command){
     switch (command){
         case 'forward':
             return '<i class="bi bi-arrow-up"></i>';
         case 'right':
-            return '<i class="bi bi-arrow-90deg-right"></i>';
+            return '<i class="bi bi-arrow-clockwise"></i>';
         case 'left':
-            return '<i class="bi bi-arrow-90deg-left"></i>';       
+            return '<i class="bi bi-arrow-counterclockwise"></i>';       
         case 'light':
             return '<i class="bi bi-lightbulb-fill"></i>';
         case 'jump':
@@ -489,7 +511,7 @@ function addP2Commands(command){
         addMainCommands(command);
         return;
     }
-    if (command == 'undo' && counterP2 == 0){
+    else if (command == 'undo' && counterP2 == 0){
         return;
     } 
     else if (command == 'undo'){ 
@@ -541,14 +563,7 @@ function restartLevel(){
     resetPlayerPosition();
     renderPlayer();
     resetCommands();
-    const resultOverlay = document.querySelector('#resultOverlay');
-    resultOverlay.classList.add('hidden');
-    const feedback = document.querySelector('#feedback');
-    feedback.classList.add('hidden');
-    const tryAgainButton = document.querySelector('#tryAgainBtn');
-    tryAgainButton.classList.add('hidden');
-    const skipLevelButton = document.querySelector('#skipLevelBtn');
-    skipLevelButton.classList.add('hidden');
+    hideResultOverlay();
 }
 
 function skipLevel(){
@@ -565,13 +580,13 @@ function skipLevel(){
     resetPlayerPosition();
     renderPlayer();
     resetCommands();
-    const resultOverlay = document.querySelector('#resultOverlay');
+    hideResultOverlay();
+}
+
+function hideResultOverlay(){
     resultOverlay.classList.add('hidden');
-    const feedback = document.querySelector('#feedback');
     feedback.classList.add('hidden');
-    const tryAgainButton = document.querySelector('#tryAgainBtn');
     tryAgainButton.classList.add('hidden');
-    const skipLevelButton = document.querySelector('#skipLevelBtn');
     skipLevelButton.classList.add('hidden');
 }
 
@@ -588,14 +603,7 @@ function allTilesHaveBeenLit(){
 
 function levelResult(){
     disableAllButtons();
-    const resultOverlay = document.querySelector('#resultOverlay');
-    resultOverlay.classList.add('hidden');
-    const feedback = document.querySelector('#feedback');
-    feedback.classList.add('hidden');
-    const tryAgainButton = document.querySelector('#tryAgainBtn');
-    tryAgainButton.classList.add('hidden');
-    const skipLevelButton = document.querySelector('#skipLevelBtn');
-    skipLevelButton.classList.add('hidden');
+    hideResultOverlay()
     if(allTilesHaveBeenLit() == true && player.alive == true){
         completedLevels++;
         feedback.style.color = 'yellow';
