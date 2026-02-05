@@ -364,3 +364,13 @@ footer {
     grid-column: 4/5;
     grid-row: 3/4;
 }
+
+.notAvailable {
+    background-color: lightgray;
+    color: black;
+}
+
+.notAvailable:hover {
+    cursor: default;
+    transform: none;
+}
