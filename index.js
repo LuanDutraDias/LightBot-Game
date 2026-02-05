@@ -10,6 +10,9 @@ const feedback = document.querySelector('#feedback');
 const tryAgainButton = document.querySelector('#tryAgain');
 const nextLevelButton = document.querySelector('#nextLevel');
 const selectLevelAfterResultButton = document.querySelector('#selectLevel');
+const turnRightButton = document.querySelector('#turnRightBtn');
+const turnLeftButton = document.querySelector('#turnLeftBtn');
+const jumpButton = document.querySelector('#jumpBtn');
 
 const player = {
     alive: true,
@@ -31,16 +34,16 @@ const maxLevel = 6;
 const maps = [
     //level 1
     [
-        'aaeee',
-        'eaeee',
-        'eaead',
-        'eaeae',
-        'eaaae',
+        'aeeee',
+        'aeeee',
+        'deeee',
+        'aeeee',
+        'deeee',
     ],
     //level 2
     [
-        'aaeee',
-        'ebabe',
+        'daeee',
+        'eaaae',
         'eeeae',
         'eeeae',
         'eeede',
@@ -52,6 +55,30 @@ const maps = [
         'eeece',
         'debbe',
         'cbaee',
+    ],
+    //level 4
+    [
+        'aaaaa',    
+        'eeeeb',
+        'dddeb',
+        'deeeb',
+        'ccccb',
+    ],
+    //level 5
+    [
+        'aaeee',    
+        'ebbbe',
+        'eeece',
+        'debbe',
+        'cbaee',
+    ],
+    //level 6
+    [
+        'eabcd',    
+        'ebeee',
+        'ecabd',
+        'eaeee',
+        'ebcad',
     ],
 ];
 
@@ -99,7 +126,10 @@ function addMapElement(square, char){
 }
 
 function renderPlayer() { 
-    const square = document.getElementById(`square-${player.row}-${player.column}`); 
+    let square = document.getElementById(`square-${player.row}-${player.column}`);
+    if (level == 6){
+        square = document.getElementById(`square-${player.row}-${player.column + 1}`);   
+    }    
     square.appendChild(robot);
 }
 
@@ -565,6 +595,7 @@ function restartLevel(){
     renderPlayer();
     resetCommands();
     hideResultOverlay();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 }
 
 function nextLevel(){
@@ -580,6 +611,7 @@ function nextLevel(){
     renderPlayer();
     resetCommands();
     hideResultOverlay();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 }
 
 function selectLevel(){
@@ -595,6 +627,7 @@ function selectLevel(){
     renderPlayer();
     resetCommands();
     hideResultOverlay();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 }
 
 function hideResultOverlay(){
@@ -693,7 +726,6 @@ function createSelectLevelsSection(){
         selectLevelButton[level - 1].classList.add('squareLevel');
         if (level != 1){
             selectLevelButton[level - 1].classList.add('notAvailable');
-            selectLevelButton[level - 1].setAttribute('disabled', '');
         }
     });
 }
@@ -711,29 +743,49 @@ selectLevelButton[0].addEventListener('click', function(){
     level = 1;
     createBoard();
     hideSelectLevelsTotalArea();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 });
 selectLevelButton[1].addEventListener('click', function(){
     level = 2;
     createBoard();
     hideSelectLevelsTotalArea();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 });
 selectLevelButton[2].addEventListener('click', function(){
     level = 3;
     createBoard();
     hideSelectLevelsTotalArea();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 });
 selectLevelButton[3].addEventListener('click', function(){
     level = 4;
     createBoard();
     hideSelectLevelsTotalArea();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 });
 selectLevelButton[4].addEventListener('click', function(){
     level = 5;
     createBoard();
     hideSelectLevelsTotalArea();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 });
 selectLevelButton[5].addEventListener('click', function(){
     level = 6;
     createBoard();
     hideSelectLevelsTotalArea();
+    showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
 });
+
+function showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel(){
+    turnRightButton.classList.remove('hidden');
+    turnLeftButton.classList.remove('hidden');
+    jumpButton.classList.remove('hidden');
+    if (level == 1){
+        turnRightButton.classList.add('hidden');
+        turnLeftButton.classList.add('hidden');
+        jumpButton.classList.add('hidden');
+    }
+    else if (level == 2){
+        jumpButton.classList.add('hidden');
+    }
+}
