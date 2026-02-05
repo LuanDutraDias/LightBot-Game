@@ -7,8 +7,9 @@ robot.classList.add('robot-style');
 
 const resultOverlay = document.querySelector('#resultOverlay');
 const feedback = document.querySelector('#feedback');
-const tryAgainButton = document.querySelector('#tryAgainBtn');
+const tryAgainButton = document.querySelector('#tryAgain');
 const nextLevelButton = document.querySelector('#nextLevel');
+const selectLevelAfterResultButton = document.querySelector('#selectLevel');
 
 const player = {
     alive: true,
@@ -585,6 +586,7 @@ function selectLevel(){
     gameRunning = false;
     timeouts.forEach(id => clearTimeout(id));
     timeouts = [];
+    selectLevelAfterResultButton.classList.add('hidden');
     showSelectLevelsTotalArea();
     enableAllButtons();
     createBoard();
@@ -614,9 +616,12 @@ function allTilesHaveBeenLit(){
 
 function levelResult(){
     disableAllButtons();
-    hideResultOverlay()
+    hideResultOverlay();
+    selectLevelAfterResultButton.classList.remove('hidden');
     if(allTilesHaveBeenLit() == true && player.alive == true){
         completedLevels[level - 1] = true;
+        selectLevelButton[level].classList.remove('notAvailable');
+        selectLevelButton[level].removeAttribute('disabled');
         feedback.style.color = 'yellow';
         resultOverlay.classList.remove('hidden');
         feedback.classList.remove('hidden');
@@ -686,6 +691,10 @@ function createSelectLevelsSection(){
         selectLevelButton[level - 1].textContent = level;
         selectLevelsSection.appendChild(selectLevelButton[level - 1]);
         selectLevelButton[level - 1].classList.add('squareLevel');
+        if (level != 1){
+            selectLevelButton[level - 1].classList.add('notAvailable');
+            selectLevelButton[level - 1].setAttribute('disabled', '');
+        }
     });
 }
 createSelectLevelsSection();
