@@ -126,10 +126,10 @@ function addMapElement(square, char){
 }
 
 function renderPlayer() { 
-    let square = document.getElementById(`square-${player.row}-${player.column}`);
-    if (level == 6){
-        square = document.getElementById(`square-${player.row}-${player.column + 1}`);   
-    }    
+    if (level == 6 && gameRunning == false){
+        player.column = 1;
+    }
+    const square = document.getElementById(`square-${player.row}-${player.column}`);
     square.appendChild(robot);
 }
 
