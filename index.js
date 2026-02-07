@@ -66,19 +66,19 @@ const maps = [
     ],
     //level 5
     [
-        'aaeee',    
-        'ebbbe',
-        'eeece',
-        'debbe',
-        'cbaee',
-    ],
-    //level 6
-    [
         'eabcd',    
         'ebeee',
         'ecabd',
         'eaeee',
         'ebcad',
+    ],
+    //level 6
+    [
+        'aeaaa',    
+        'aeaed',
+        'aeaee',
+        'aeaee',
+        'aaaee',
     ],
 ];
 
@@ -97,6 +97,7 @@ function createBoard(){
             squaresArray.push(square);
         }
     }
+    changeLevel6Design();
     renderPlayer();
 }
 createBoard();
@@ -126,8 +127,11 @@ function addMapElement(square, char){
 }
 
 function renderPlayer() { 
-    if (level == 6 && gameRunning == false){
+    if (level == 5 && gameRunning == false){
         player.column = 1;
+    }
+    else if (gameRunning == false){
+        player.column = 0;
     }
     const square = document.getElementById(`square-${player.row}-${player.column}`);
     square.appendChild(robot);
@@ -735,13 +739,18 @@ function createSelectLevelsSection(){
 }
 createSelectLevelsSection();
 const lockIcons = document.querySelectorAll('.bi-lock');
+const hyphenOnFooter = document.querySelector('footer span');
 
 function hideSelectLevelsTotalArea(){
     selectLevelsTotalArea.classList.add('hidden');
+    hyphenOnFooter.classList.add('hidden');
 }
 
 function showSelectLevelsTotalArea(){
     selectLevelsTotalArea.classList.remove('hidden');
+    if (level == 6){
+        hyphenOnFooter.classList.remove('hidden');
+    }
 }
 
 selectLevelButton[0].addEventListener('click', function(){
@@ -794,3 +803,46 @@ function showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel(){
         jumpButton.classList.add('hidden');
     }
 }
+
+function changeLevel6Design(){
+    const letterL = document.querySelector('header h1 span:nth-of-type(2) span');
+    const letterI = document.querySelector('.display span');
+    if (level == 6){
+        const blackHole = document.querySelectorAll('.ground-empty');
+        blackHole.forEach(blackHole => {
+            blackHole.style.background = 'linear-gradient(to top, green, mediumseagreen)';
+        })
+        letterL.style.color = 'rgb(0, 255, 0)';
+        letterI.style.color = 'rgb(0, 255, 0)';
+    }
+    else {
+        letterL.style.color = '';
+        letterI.style.color = '';
+    }
+}
+
+const gameInstructionsTotalArea = document.createElement('div');
+gameInstructionsTotalArea.setAttribute('id', 'gameInstructionsTotalArea');
+body.appendChild(gameInstructionsTotalArea);
+const gameInstructionsFooter = document.createElement('footer');
+gameInstructionsTotalArea.appendChild(gameInstructionsFooter);
+const returnFromGameInstructionsAreaButton = document.createElement('button');
+gameInstructionsFooter.appendChild(returnFromGameInstructionsAreaButton);
+const gameInstructionsTitle = document.createElement('h1');
+gameInstructionsFooter.appendChild(gameInstructionsTitle);
+const gameInstructionsSection = document.createElement('div');
+gameInstructionsSection.setAttribute('id', 'gameInstructionsSection'); 
+gameInstructionsTotalArea.appendChild(gameInstructionsSection);
+const firstGameInstruction = document.createElement('p');
+gameInstructionsSection.appendChild(firstGameInstruction);
+const secondGameInstruction = document.createElement('p');
+gameInstructionsSection.appendChild(secondGameInstruction);
+const thirdGameInstruction = document.createElement('p');
+gameInstructionsSection.appendChild(thirdGameInstruction);
+
+returnFromGameInstructionsAreaButton.innerHTML = '<i class="bi bi-arrow-90deg-left"></i>'
+returnFromGameInstructionsAreaButton.addEventListener('click', () => {
+    selectLevel();
+    gameInstructionsTotalArea.classList.add('hidden');
+});
+gameInstructionsTitle.innerHTML = 'Game Instructions';
