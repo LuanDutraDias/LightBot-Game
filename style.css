@@ -29,11 +29,19 @@ header h1 span:nth-of-type(2), header h2 span {
     box-shadow: 3px 3px 5px rgba(0, 0, 0);
 }
 
-header h1 span:first-of-type {
+header.mainHeader h1 > span:first-of-type {
     background-color: white;
     margin: 0 10px;
     padding: 5px;
     border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0);
+}
+
+#selectLevelsTotalArea header h1 span:first-of-type {
+    color: rgb(255, 255, 255);
+    background-color: rgb(22, 158, 255);
+    border-radius: 10px;
+    padding: 5px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0);
 }
 
@@ -58,11 +66,16 @@ main {
 .square {
     width: 100%;
     height: 100%;
-    border: 3px solid black;
     border-radius: 10px;
+    border: 3px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.ground-empty {
+    background: red;
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 40%, rgba(255, 255, 255, 1) 50%, rgba(8, 0, 0, 1) 100%);
 }
 
 .controls {
@@ -147,10 +160,6 @@ aside {
     grid-column: 2 / 3;
 }
 
-.display span {
-    padding: 10px;
-}
-
 #displayMain {
     background-color: rgb(200, 200, 200);
     grid-row: 2 / 3;
@@ -159,7 +168,7 @@ aside {
     font-size: 60px;
     border: 2px solid white;
     border-radius: 10px;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 #displayMain i {
@@ -176,7 +185,7 @@ aside {
     font-size: 60px;
     border: 2px solid white;
     border-radius: 10px;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 #displayP1 i {
@@ -261,6 +270,16 @@ footer a:hover {
     transform: scale(1.015);
 }
 
+footer span {
+    color: rgb(0, 255, 0);
+    display: inline-block;
+    transform: scale(1.5);
+}
+
+footer .hidden{
+    display: none;
+}
+
 #resultOverlay {
     grid-row: 2 / 3;
     grid-column: 1 / 3;
@@ -269,7 +288,7 @@ footer a:hover {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    z-index: 999;
+    z-index: 1;
 }
 
 #resultOverlay p {
@@ -281,8 +300,9 @@ footer a:hover {
 
 }
 
-#resultOverlay p.hidden {
+#resultOverlay.hidden {
     display: none;
+    pointer-events: none;
 }
 
 #resultOverlay button:hover {
@@ -299,18 +319,13 @@ footer a:hover {
     background-color: yellow;
 }
 
-#feedback {
-    text-shadow: 5px 5px 5px black, 2px -2px 0px black, -2px -2px 0px black, -2px 2px 0px black;
-    font-size: 150px;
-}
-
 #resultOverlay button.hidden {
     display: none;
 }
 
-.ground-empty {
-    background: red;
-    background: radial-gradient(circle, rgba(0, 0, 0, 1) 40%, rgba(255, 255, 255, 1) 50%, rgba(8, 0, 0, 1) 100%);
+#feedback {
+    text-shadow: 5px 5px 5px black, 2px -2px 0px black, -2px -2px 0px black, -2px 2px 0px black;
+    font-size: 150px;
 }
 
 .robot-style {
@@ -351,10 +366,11 @@ footer a:hover {
 
 #selectLevelsTotalArea.hidden {
     display: none;
+    pointer-events: none;
 }
 
 #selectLevelsSection {
-    z-index: 999;
+    z-index: 2;
     display: grid;
     grid-row: 2/3;
     grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
@@ -420,4 +436,58 @@ footer a:hover {
 .notAvailable:hover {
     cursor: default;
     transform: none;
+}
+
+#gameInstructionsTotalArea {
+    z-index: 3;
+    position: absolute;
+    background-color: aqua;
+    height: 92vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: 20% 80%
+}
+
+#gameInstructionsTotalArea.hidden {
+    display: none;
+    pointer-events: none;
+}
+
+#gameInstructionsTotalArea footer {
+    grid-row: 1/2;
+    background-color: white;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#gameInstructionsTotalArea footer h1 {
+    color: rgb(255, 255, 255);
+    background-color: rgb(22, 158, 255);
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0);
+    grid-column: 2/3;
+    width: fit-content;
+    align-self: center;
+    justify-self: center;
+}
+
+#gameInstructionsTotalArea footer button {
+    padding: 15px;
+    width: 100px;
+    margin: 0 10px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(23, 146, 234);
+    font-size: 25px;
+    grid-column: 1/2;
+    align-self: center;
+}
+
+#gameInstructionsTotalArea footer button:hover {
+    background-color: rgb(68, 161, 238);
+    cursor: pointer;
+    transform: scale(1.015);
 }
