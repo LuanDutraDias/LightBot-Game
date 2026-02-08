@@ -456,7 +456,7 @@ function transformCommands(command){
         case 'left':
             return '<i class="bi bi-arrow-counterclockwise"></i>';       
         case 'light':
-            return '<i class="bi bi-lightbulb-fill"></i>';
+            return '<i class="bi bi-lightbulb"></i>';
         case 'jump':
             return '<i class="bi bi-capslock-fill"></i>';    
         case 'p1':
@@ -860,3 +860,35 @@ function hideGameInstructionsTotalArea(){
 }
 
 gameInstructionsTitle.innerHTML = 'Game Instructions';
+
+const groundLightSquareWhite = document.createElement('div');
+groundLightSquareWhite.classList.add('instructionsSquare');
+groundLightSquareWhite.appendChild(robot.cloneNode(true));
+firstGameInstruction.appendChild(groundLightSquareWhite);
+firstGameInstruction.innerHTML += '<i class="bi bi-lightbulb"></i>' + '<i class="bi bi-arrow-right"></i>';
+const groundLightSquareYellow = document.createElement('div')
+groundLightSquareYellow.classList.add('instructionsSquare');
+groundLightSquareYellow.style.backgroundColor = 'yellow';
+groundLightSquareYellow.appendChild(robot.cloneNode(true));
+firstGameInstruction.appendChild(groundLightSquareYellow);
+
+const groundLow = document.createElement('div')
+const groundMedium = document.createElement('div')
+const groundHigh = document.createElement('div')
+groundLow.classList.add('instructionsSquare');
+groundMedium.classList.add('instructionsSquare');
+groundHigh.classList.add('instructionsSquare');
+secondGameInstruction.appendChild(groundLow);
+groundLow.appendChild(robot.cloneNode(true));
+secondGameInstruction.innerHTML += '<i class="bi bi-capslock-fill"></i>' + '<i class="bi bi-arrow-right"></i>';
+secondGameInstruction.appendChild(groundMedium);
+groundMedium.appendChild(robot.cloneNode(true));
+secondGameInstruction.innerHTML += '<i class="bi bi-capslock-fill"></i>' + '<i class="bi bi-arrow-right"></i>';
+secondGameInstruction.appendChild(groundHigh);
+groundHigh.appendChild(robot.cloneNode(true));
+
+thirdGameInstruction.appendChild(groundHigh.cloneNode(true));
+thirdGameInstruction.innerHTML += '<i class="bi bi-capslock-fill"></i>' + '<i class="bi bi-x-lg"></i>';
+thirdGameInstruction.appendChild(groundHigh.cloneNode(true));
+
+
