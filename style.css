@@ -524,3 +524,74 @@ footer .hidden{
     cursor: pointer;
     transform: scale(1.015);
 }
+
+#gameInstructionsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+#gameInstructionsSection p {
+    font-size: 100px;
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameInstructionsSection p .instructionsSquare {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    border: 3px solid black;
+    width: 140px;
+    height: 140px;
+    margin: 0 15px;
+}
+
+#gameInstructionsSection p i {
+    margin: 0 15px;
+    color: white;
+    text-shadow: 
+    2px 2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    -2px -2px 0 black;
+}
+
+#gameInstructionsSection p .bi-lightbulb {
+    color: yellow;
+}
+
+#gameInstructionsSection p .bi-x-lg {
+    color: red;
+}
+
+#gameInstructionsSection p:nth-of-type(2) .instructionsSquare:nth-of-type(1) {
+    background: linear-gradient(to top, green, mediumseagreen);
+}
+
+#gameInstructionsSection p:nth-of-type(2) .instructionsSquare:nth-of-type(2) {
+    background: linear-gradient(to top, mediumseagreen, mediumspringgreen);
+}
+
+#gameInstructionsSection p:nth-of-type(2) .instructionsSquare:nth-of-type(3), #gameInstructionsSection p:nth-of-type(3) .instructionsSquare {
+    background: linear-gradient(to top, limegreen, lime);
+}
+
+#gameInstructionsSection p:nth-of-type(2) .instructionsSquare:nth-of-type(4) {
+    background: linear-gradient(to top, green, mediumseagreen);
+}
+
+#gameInstructionsSection p:nth-of-type(3) .instructionsSquare:nth-of-type(2) .robot-style {
+    opacity: 0.5;
+}
+
+#gameInstructionsSection .robot-style {
+    font-size: 80px;
+}
+
