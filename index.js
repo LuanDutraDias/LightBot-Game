@@ -1,5 +1,5 @@
 const body = document.querySelector('body');
-const grid = document.querySelector('#grid');
+const gameBoard = document.querySelector('#gameBoard');
 
 const robot = document.createElement('i');
 robot.classList.add('bi', 'bi-android2');
@@ -84,7 +84,7 @@ const maps = [
 
 function createBoard(){
     const currentMap = maps[level - 1];
-    grid.innerHTML = "";
+    gameBoard.innerHTML = "";
 
     for (let i = 0; i < currentMap.length; i++){
         for (let j = 0; j < currentMap[i].length; j++){
@@ -93,7 +93,7 @@ function createBoard(){
             square.classList.add('square');
             const char = currentMap[i][j];
             addMapElement(square, char, i, j);
-            grid.appendChild(square);
+            gameBoard.appendChild(square);
             squaresArray.push(square);
         }
     }
@@ -201,13 +201,15 @@ function turnRight() {
     robot.style.transform = `rotate(${player.angle}deg)`;
 }
 
+let delay;
 function executeCommands() {
     disableAllButtons();
     if (gameRunning || player.alive == false){
         return;
-    } 
+    }
+    playerDied = false; 
     gameRunning = true; 
-    let delay = 0;
+    delay = 0;
 
     for (let cmd of commandsToExecuteOnMain){
         if (cmd === 'p1'){ 
@@ -230,24 +232,30 @@ function executeCommands() {
             delay += (cmd === 'forward' || cmd === 'jump') ? 600 : 1200;
         } 
     }
-    setTimeout(() => {
+    levelResultWithNoDeath();
+}
+
+let levelResultWithNoDeathIdTimeout;
+function levelResultWithNoDeath(){
+    levelResultWithNoDeathIdTimeout = setTimeout(() => {
         gameRunning = false;
-        if (player.alive){
-            levelResult();
-        }    
+        levelResult();
     }, delay + 1200);
-} 
+}
 
 function handleDeath() {
     player.alive = false;
     gameRunning = false;
     timeouts.forEach(id => clearTimeout(id));
     timeouts = [];
+    clearTimeout(levelResultWithNoDeathIdTimeout);
     setTimeout(() => {
         robot.style.transition = 'transform 1.5s ease';
-        robot.style.transform = 'scale(0) rotate(360deg)';
+        robot.style.transform = 'scale(0) rotate(540deg)';
     }, 650);
-    setTimeout(() => levelResult(), 1800);
+    setTimeout(() => {
+        levelResult();
+    }, 1200);
 }
 
 function runCommand(cmd) { 
@@ -293,7 +301,7 @@ function runCommand(cmd) {
             currentSquare.style.backgroundColor = 'gray'; 
         }   
         else { 
-            currentSquare.style.backgroundColor = 'yellow'; 
+            currentSquare.style.background = 'yellow'; 
         } 
     } 
 }
