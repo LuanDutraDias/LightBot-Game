@@ -354,14 +354,47 @@ footer .hidden{
 
 #selectLevelsTotalArea header {
     grid-row: 1/2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 25px;
+    display: grid;
     font-size: larger;
     background-color: white;
-    padding: 80px;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto auto;
+}
+
+#selectLevelsTotalArea header button {
+    padding: 15px;
+    width: 200px;
+    margin: 0 40px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(23, 146, 234);
+    font-size: 25px;
+    grid-column: 1/2;
+    grid-row: 1/3;
+    align-self: center;
+    justify-self: flex-start;
+}
+
+#selectLevelsTotalArea header button:hover {
+    background-color: rgb(68, 161, 238);
+    cursor: pointer;
+    transform: scale(1.015);
+}
+
+#selectLevelsTotalArea header h1 {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-self: center;
+    justify-items: center;
+}
+
+#selectLevelsTotalArea header h2 {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    justify-self: center;
+    justify-items: center;
+    margin-bottom: 20px;
 }
 
 #selectLevelsTotalArea.hidden {
@@ -445,7 +478,7 @@ footer .hidden{
     height: 92vh;
     width: 100vw;
     display: grid;
-    grid-template-rows: 20% 80%
+    grid-template-rows: 15% 85%;
 }
 
 #gameInstructionsTotalArea.hidden {
@@ -453,7 +486,7 @@ footer .hidden{
     pointer-events: none;
 }
 
-#gameInstructionsTotalArea footer {
+#gameInstructionsTotalArea header {
     grid-row: 1/2;
     background-color: white;
     width: 100vw;
@@ -461,7 +494,7 @@ footer .hidden{
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-#gameInstructionsTotalArea footer h1 {
+#gameInstructionsTotalArea header h1 {
     color: rgb(255, 255, 255);
     background-color: rgb(22, 158, 255);
     border-radius: 10px;
@@ -473,10 +506,10 @@ footer .hidden{
     justify-self: center;
 }
 
-#gameInstructionsTotalArea footer button {
+#gameInstructionsTotalArea header button {
     padding: 15px;
     width: 100px;
-    margin: 0 10px;
+    margin: 0 40px;
     color: white;
     border-radius: 5px;
     border: none;
@@ -486,7 +519,7 @@ footer .hidden{
     align-self: center;
 }
 
-#gameInstructionsTotalArea footer button:hover {
+#gameInstructionsTotalArea header button:hover {
     background-color: rgb(68, 161, 238);
     cursor: pointer;
     transform: scale(1.015);
