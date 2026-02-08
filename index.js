@@ -240,7 +240,7 @@ function levelResultWithNoDeath(){
     levelResultWithNoDeathIdTimeout = setTimeout(() => {
         gameRunning = false;
         levelResult();
-    }, delay + 1200);
+    }, delay + 650);
 }
 
 function handleDeath() {
@@ -255,7 +255,7 @@ function handleDeath() {
     }, 650);
     setTimeout(() => {
         levelResult();
-    }, 1200);
+    }, 1950);
 }
 
 function runCommand(cmd) { 
@@ -298,12 +298,13 @@ function runCommand(cmd) {
             currentSquare.style.background = 'linear-gradient(to top, limegreen, lime)'; 
         }
         else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-light')){ 
-            currentSquare.style.backgroundColor = 'gray'; 
+            currentSquare.style.backgroundColor = 'white'; 
         }   
         else { 
-            currentSquare.style.background = 'yellow'; 
+            currentSquare.style.background = '';
+            currentSquare.style.backgroundColor = 'yellow'; 
         } 
-    } 
+    }
 }
 
 function isTheSquareSafe(){
@@ -318,7 +319,7 @@ function isTheSquareSafe(){
 
 function updateCurrentPlayerHigh(){
     const currentSquare = document.getElementById(`square-${player.row}-${player.column}`);
-    if (currentSquare.classList.contains('ground-empty') || currentSquare.classList.contains('ground-low')){
+    if (currentSquare.classList.contains('ground-low') || currentSquare.classList.contains('ground-light')){
         player.high = 0;
     }
     else if (currentSquare.classList.contains('ground-medium')){
@@ -331,7 +332,7 @@ function updateCurrentPlayerHigh(){
 
 function nextSquareHigh(){
     if (player.direction === 'up'){
-        if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-low')){
+        if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-light') || document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-low') || document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-empty')){
             return 0;
         }
         else if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-medium')){
@@ -342,7 +343,7 @@ function nextSquareHigh(){
         }
     }
     else if (player.direction === 'down'){
-        if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-low')){
+        if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-light') || document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-low') || document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-empty')){
             return 0;
         }
         else if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-medium')){
@@ -353,7 +354,7 @@ function nextSquareHigh(){
         } 
     } 
     else if (player.direction === 'left'){
-        if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-low')){
+        if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-light') || document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-low') || document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-empty')){
             return 0;
         }
         else if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-medium')){
@@ -364,7 +365,7 @@ function nextSquareHigh(){
         } 
     } 
     else if (player.direction === 'right'){
-        if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-empty') || document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-low')){
+        if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-light') || document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-low') || document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-empty')){
             return 0;
         }
         else if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-medium')){
@@ -666,9 +667,11 @@ function levelResult(){
     selectLevelAfterResultButton.classList.remove('hidden');
     if(allTilesHaveBeenLit() == true && player.alive == true){
         completedLevels[level - 1] = true;
-        lockIcons[level - 1].classList.remove('bi-lock');
-        selectLevelButton[level].classList.remove('notAvailable');
-        selectLevelButton[level].removeAttribute('disabled');
+        if (level != 6){
+            lockIcons[level - 1].classList.remove('bi-lock');
+            selectLevelButton[level].classList.remove('notAvailable');
+            selectLevelButton[level].removeAttribute('disabled');
+        }
         feedback.style.color = 'yellow';
         resultOverlay.classList.remove('hidden');
         feedback.classList.remove('hidden');
