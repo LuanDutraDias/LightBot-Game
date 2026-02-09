@@ -285,7 +285,7 @@ footer a:hover {
     transform: scale(1.015);
 }
 
-footer span {
+footer span:nth-of-type(2) {
     color: rgb(0, 255, 0);
     display: inline-block;
     transform: scale(1.5);
@@ -361,9 +361,8 @@ footer .hidden{
     grid-template-rows: auto auto;
 }
 
-#selectLevelsTotalArea header button {
-    padding: 15px;
-    width: 200px;
+#selectLevelsTotalArea header button:first-of-type {
+    padding: 12px 30px;
     margin-left: 40px;
     margin-top: 20px;
     color: white;
@@ -375,6 +374,21 @@ footer .hidden{
     grid-row: 1/3;
     align-self: flex-start;
     justify-self: flex-start;
+}
+
+#selectLevelsTotalArea header button:nth-of-type(2) {
+    padding: 12px 30px;
+    margin-right: 40px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(23, 146, 234);
+    font-size: 25px;
+    grid-column: 3/4;
+    grid-row: 1/3;
+    align-self: flex-start;
+    justify-self: flex-end;
 }
 
 #selectLevelsTotalArea header button:hover {
@@ -395,7 +409,8 @@ footer .hidden{
     grid-row: 2/3;
     justify-self: center;
     justify-items: center;
-    margin-bottom: 30px;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 
 #selectLevelsTotalArea.hidden {
@@ -492,7 +507,7 @@ footer .hidden{
     background-color: white;
     width: 100vw;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto 1fr auto;
 }
 
 #gameInstructionsTotalArea header h1 {
@@ -508,8 +523,7 @@ footer .hidden{
 }
 
 #gameInstructionsTotalArea header button {
-    padding: 15px;
-    width: 100px;
+    padding: 15px 30px;
     margin: 0 40px;
     color: white;
     border-radius: 5px;
