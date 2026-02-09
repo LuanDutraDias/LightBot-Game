@@ -340,12 +340,8 @@ function getNextSquare(){
 
 function isTheNextSquareLowerOrEqualPlayerHigh(){
     updateCurrentPlayerHigh();
-    const nextSquare = getNextSquare();
     if (player.high >= nextSquareHigh()){
         return true;
-    }
-    else if (nextSquare && nextSquare.classList.contains('ground-light')) { 
-        return true; 
     }
     else {
         return false;
@@ -682,7 +678,6 @@ selectLevelsCommand.innerHTML = 'Select the <span>LEVEL</span>';
 const levels = [1, 2, 3, 4, 5, 6];
 const selectLevelButton = [];
 
-
 function createSelectLevelsSection(){
     levels.forEach(level => {
         selectLevelButton[level - 1] = document.createElement('button');
@@ -697,6 +692,7 @@ function createSelectLevelsSection(){
     });
 }
 createSelectLevelsSection();
+
 const lockIcons = document.querySelectorAll('.bi-lock');
 const hyphenOnFooter = document.querySelector('footer span');
 
@@ -789,6 +785,7 @@ const returnFromGameInstructionsAreaButton = document.createElement('button');
 gameInstructionsHeader.appendChild(returnFromGameInstructionsAreaButton);
 const gameInstructionsTitle = document.createElement('h1');
 gameInstructionsHeader.appendChild(gameInstructionsTitle);
+gameInstructionsTitle.innerHTML = 'Game Instructions';
 const gameInstructionsSection = document.createElement('div');
 gameInstructionsSection.setAttribute('id', 'gameInstructionsSection'); 
 gameInstructionsTotalArea.appendChild(gameInstructionsSection);
@@ -813,14 +810,14 @@ function showGameInstructionsTotalArea(){
 function hideGameInstructionsTotalArea(){
     gameInstructionsTotalArea.classList.add('hidden');
 }
-
-gameInstructionsTitle.innerHTML = 'Game Instructions';
+hideGameInstructionsTotalArea();
 
 const groundLightSquareWhite = document.createElement('div');
 groundLightSquareWhite.classList.add('instructionsSquare');
 groundLightSquareWhite.appendChild(robot.cloneNode(true));
 firstGameInstruction.appendChild(groundLightSquareWhite);
 firstGameInstruction.innerHTML += '<i class="bi bi-lightbulb"></i>' + '<i class="bi bi-arrow-right"></i>';
+
 const groundLightSquareYellow = document.createElement('div')
 groundLightSquareYellow.classList.add('instructionsSquare');
 groundLightSquareYellow.style.backgroundColor = 'yellow';
@@ -841,9 +838,6 @@ groundMedium.appendChild(robot.cloneNode(true));
 secondGameInstruction.innerHTML += '<i class="bi bi-capslock-fill"></i>' + '<i class="bi bi-arrow-right"></i>';
 secondGameInstruction.appendChild(groundHigh);
 groundHigh.appendChild(robot.cloneNode(true));
-
 thirdGameInstruction.appendChild(groundHigh.cloneNode(true));
 thirdGameInstruction.innerHTML += '<i class="bi bi-capslock-fill"></i>' + '<i class="bi bi-x-lg"></i>';
 thirdGameInstruction.appendChild(groundHigh.cloneNode(true));
-
-
