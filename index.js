@@ -26,13 +26,14 @@ const player = {
 const squaresArray = [];
 let timeouts = [];
 let gameRunning = false;
-let completedLevels = [false, false, false, false, false, false];
 let level = 1; 
+let completedLevels = [];
 const maxLevel = 6;
+for (let x = 0; x < maxLevel; x++){
+    completedLevels.push(false);
+}
 
-//a= chao baixo| b= chao medio| c= chao alto| d= chao da luz | e= chao vazio
 const maps = [
-    //level 1
     [
         'aeeee',
         'aeeee',
@@ -40,7 +41,6 @@ const maps = [
         'aeeee',
         'deeee',
     ],
-    //level 2
     [
         'daeee',
         'eaaae',
@@ -48,7 +48,6 @@ const maps = [
         'eeeae',
         'eeede',
     ],
-    //level 3
     [
         'aaaaa',    
         'eeeeb',
@@ -56,7 +55,6 @@ const maps = [
         'deeeb',
         'ccccb',
     ],
-    //level 4
     [
         'aaeee',    
         'ebbbe',
@@ -64,7 +62,6 @@ const maps = [
         'debbe',
         'cbaee',
     ],
-    //level 5
     [
         'eabcd',    
         'ebeee',
@@ -72,7 +69,6 @@ const maps = [
         'eaeee',
         'ebcad',
     ],
-    //level 6
     [
         'aeaaa',    
         'aeaed',
@@ -85,14 +81,13 @@ const maps = [
 function createBoard(){
     const currentMap = maps[level - 1];
     gameBoard.innerHTML = "";
-
     for (let i = 0; i < currentMap.length; i++){
         for (let j = 0; j < currentMap[i].length; j++){
             const square = document.createElement('div');
             square.setAttribute('id', `square-${i}-${j}`);
             square.classList.add('square');
             const char = currentMap[i][j];
-            addMapElement(square, char, i, j);
+            addMapElement(square, char);
             gameBoard.appendChild(square);
             squaresArray.push(square);
         }
@@ -100,7 +95,6 @@ function createBoard(){
     changeLevel6Design();
     renderPlayer();
 }
-createBoard();
 
 function addMapElement(square, char){
     switch(char){
@@ -126,7 +120,7 @@ function addMapElement(square, char){
     }
 }
 
-function renderPlayer() { 
+function renderPlayer(){ 
     if (level == 5 && gameRunning == false){
         player.column = 1;
     }
@@ -138,11 +132,9 @@ function renderPlayer() {
 }
 
 function movePlayer() { 
-    if (isTheNextSquareOnTheMap() == false) return;
-    const oldSquare = document.getElementById(`square-${player.row}-${player.column}`); 
-    if (oldSquare.contains(robot)) {
-        oldSquare.removeChild(robot);
-    }
+    if (isTheNextSquareOnTheMap() == false){
+        return;
+    }    
     if (player.direction === 'up'){
         player.row--;
     }    
@@ -156,11 +148,9 @@ function movePlayer() {
         player.column++; 
     } 
     renderPlayer();
-    updateCurrentPlayerHigh();
 }
 
 function turnLeft() {
-    robot.style.transition = 'transform 1s ease';
     if (player.direction === 'up'){
         player.direction = 'left';
         player.angle -= 90;
@@ -177,11 +167,11 @@ function turnLeft() {
         player.direction = 'up';
         player.angle -= 90;
     } 
+    robot.style.transition = 'transform 1s ease';
     robot.style.transform = `scale(1) rotate(${player.angle}deg)`;
 }
 
 function turnRight() {
-    robot.style.transition = 'transform 1s ease';
     if (player.direction === 'up'){
         player.direction = 'right';
         player.angle += 90;
@@ -198,37 +188,36 @@ function turnRight() {
         player.direction = 'up';
         player.angle += 90;
     } 
+    robot.style.transition = 'transform 1s ease';
     robot.style.transform = `scale(1) rotate(${player.angle}deg)`;
 }
 
 let delay;
-function executeCommands() {
+function executeCommands(){
     disableAllButtons();
-    if (gameRunning || player.alive == false){
+    if (gameRunning == true || player.alive == false){
         return;
     }
-    playerDied = false; 
     gameRunning = true; 
     delay = 0;
-
     for (let cmd of commandsToExecuteOnMain){
         if (cmd === 'p1'){ 
             for (let subCmd of commandsToExecuteOnP1){ 
-                const id = setTimeout(() => runCommand(subCmd), delay);
-                timeouts.push(id); 
+                const commandTimeoutId = setTimeout(() => runCommand(subCmd), delay);
+                timeouts.push(commandTimeoutId); 
                 delay += (subCmd === 'forward' || subCmd === 'jump') ? 600 : 1200;
             } 
         } 
         else if (cmd === 'p2'){ 
             for (let subCmd of commandsToExecuteOnP2){ 
-                const id = setTimeout(() => runCommand(subCmd), delay);
-                timeouts.push(id); 
+                const commandTimeoutId = setTimeout(() => runCommand(subCmd), delay);
+                timeouts.push(commandTimeoutId); 
                 delay += (subCmd === 'forward' || subCmd === 'jump') ? 600 : 1200;
             } 
         } 
         else{ 
-            const id = setTimeout(() => runCommand(cmd), delay);
-            timeouts.push(id); 
+            const commandTimeoutId = setTimeout(() => runCommand(cmd), delay);
+            timeouts.push(commandTimeoutId); 
             delay += (cmd === 'forward' || cmd === 'jump') ? 600 : 1200;
         } 
     }
@@ -243,10 +232,10 @@ function levelResultWithNoDeath(){
     }, delay + 650);
 }
 
-function handleDeath() {
+function handleDeath(){
     player.alive = false;
     gameRunning = false;
-    timeouts.forEach(id => clearTimeout(id));
+    timeouts.forEach(commandTimeoutId => clearTimeout(commandTimeoutId));
     timeouts = [];
     clearTimeout(levelResultWithNoDeathIdTimeout);
     setTimeout(() => {
@@ -258,24 +247,15 @@ function handleDeath() {
     }, 1950);
 }
 
-function runCommand(cmd) { 
-    if (player.alive == false){
-        return;
-    }
-    else if (cmd === 'forward' && isTheNextSquareOnTheMap()){ 
-        if (isTheNextSquareLowerOrEqualPlayerHigh()){ 
+function runCommand(cmd){ 
+    if (cmd === 'forward' && isTheNextSquareOnTheMap() == true && isTheNextSquareLowerOrEqualPlayerHigh() == true){ 
         movePlayer(); 
-        updateCurrentPlayerHigh(); 
-            if (isTheSquareSafe() == false){
-                handleDeath(); 
-            } 
-        }
-    } 
-    else if (cmd === 'jump' && isTheNextSquareOnTheMap()){ 
-        if (player.high < nextSquareHigh()){ 
-            movePlayer(); 
+        if (isTheSquareSafe() == false){
+            handleDeath(); 
         } 
-        updateCurrentPlayerHigh(); 
+    } 
+    else if (cmd === 'jump' && isTheNextSquareOnTheMap() && isTheNextSquareLowerOrEqualPlayerHigh() == false){ 
+        movePlayer(); 
         if (isTheSquareSafe() == false){
             handleDeath(); 
         }    
@@ -331,66 +311,30 @@ function updateCurrentPlayerHigh(){
 }
 
 function nextSquareHigh(){
-    if (player.direction === 'up'){
-        if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-light') || document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-low') || document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-empty')){
-            return 0;
-        }
-        else if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-medium')){
-            return 1;
-        }
-        else if (document.getElementById(`square-${player.row - 1}-${player.column}`).classList.contains('ground-high')){
-            return 2;
-        }
+    if (getNextSquare().classList.contains('ground-light') || getNextSquare().classList.contains('ground-low') || getNextSquare().classList.contains('ground-empty')){
+        return 0;
     }
-    else if (player.direction === 'down'){
-        if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-light') || document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-low') || document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-empty')){
-            return 0;
-        }
-        else if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-medium')){
-            return 1;
-        }
-        else if (document.getElementById(`square-${player.row + 1}-${player.column}`).classList.contains('ground-high')){
-            return 2;
-        } 
-    } 
-    else if (player.direction === 'left'){
-        if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-light') || document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-low') || document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-empty')){
-            return 0;
-        }
-        else if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-medium')){
-            return 1;
-        }
-        else if (document.getElementById(`square-${player.row}-${player.column - 1}`).classList.contains('ground-high')){
-            return 2;
-        } 
-    } 
-    else if (player.direction === 'right'){
-        if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-light') || document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-low') || document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-empty')){
-            return 0;
-        }
-        else if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-medium')){
-            return 1;
-        }
-        else if (document.getElementById(`square-${player.row}-${player.column + 1}`).classList.contains('ground-high')){
-            return 2;
-        } 
+    else if (getNextSquare().classList.contains('ground-medium')){
+        return 1;
+    }
+    else if (getNextSquare().classList.contains('ground-high')){
+         return 2;
     } 
 }
 
-function getNextSquare() {
+function getNextSquare(){
     if (player.direction === 'up') {
         return document.getElementById(`square-${player.row - 1}-${player.column}`);
     }
-    if (player.direction === 'down') {
+    else if (player.direction === 'down') {
         return document.getElementById(`square-${player.row + 1}-${player.column}`);
     }
-    if (player.direction === 'left') {
+    else if (player.direction === 'left') {
         return document.getElementById(`square-${player.row}-${player.column - 1}`);
     }
-    if (player.direction === 'right') {
+    else if (player.direction === 'right') {
         return document.getElementById(`square-${player.row}-${player.column + 1}`);
     }
-    return null;
 }
 
 

@@ -63,6 +63,21 @@ main {
     height: 80%;
 }
 
+.robot-style {
+    padding-top: 5px;
+    font-size: 53px;
+    color: white;
+    text-shadow:
+    -2px -2px 0 #000,
+    0 -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 0 0 #000,
+    2px 0 0 #000,
+    -2px 2px 0 #000,
+    0 2px 0 #000,
+    2px 2px 0 #000;
+}
+
 .square {
     width: 100%;
     height: 100%;
@@ -326,21 +341,6 @@ footer .hidden{
 #feedback {
     text-shadow: 5px 5px 5px black, 2px -2px 0px black, -2px -2px 0px black, -2px 2px 0px black;
     font-size: 150px;
-}
-
-.robot-style {
-    padding-top: 5px;
-    font-size: 53px;
-    color: white;
-    text-shadow:
-    -2px -2px 0 #000,
-    0 -2px 0 #000,
-    2px -2px 0 #000,
-    -2px 0 0 #000,
-    2px 0 0 #000,
-    -2px 2px 0 #000,
-    0 2px 0 #000,
-    2px 2px 0 #000;
 }
 
 #selectLevelsTotalArea {
