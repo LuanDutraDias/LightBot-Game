@@ -806,6 +806,10 @@ function showSelectLevelsTotalArea(){
 
 selectLevelButton[0].addEventListener('click', function(){
     level = 1;
+    if (gameMusicIsPlaying == false){
+        soundEffects.gameMusic.play();
+        gameMusicIsPlaying = true;
+    }
     createBoard();
     hideSelectLevelsTotalArea();
     showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel();
@@ -941,7 +945,6 @@ thirdGameInstruction.appendChild(groundHigh.cloneNode(true));
 const soundEffects = {
     gameClear: new Howl({
         src: ['./audio/gameClear.mp3', './audio/gameClear.ogg'],
-        autoplay: true,
         volume: 0.1, 
     }),
     levelClear: new Howl({
@@ -978,9 +981,9 @@ const soundEffects = {
     }),
     gameMusic: new Howl({
         src: ['./audio/gameMusic.mp3', './audio/gameMusic.ogg'],
-  
         loop: true,
         rate: 0.95,
         volume: 0.4
-    })
+    }),
 };
+let gameMusicIsPlaying = false;
