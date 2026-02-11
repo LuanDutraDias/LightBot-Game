@@ -754,7 +754,7 @@ function translateTheGame(){
         instructionsButton.innerHTML = 'Instruções';
         gameInstructionsTitle.innerHTML = 'Instruções do Jogo';
     }
-    else {
+    else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
         translateTheGameButton.innerHTML = 'Português 🇧🇷'
         mainTitle.innerHTML = '<span>Welcome to the GAME:</span><span><span>L</span>ightBot</span>';
         mainButton.innerHTML = '<span>MAIN</span>';
@@ -987,3 +987,29 @@ const soundEffects = {
     }),
 };
 let gameMusicIsPlaying = false;
+
+const musicOnOff = document.querySelector('#playMusicButton span:nth-of-type(2)');
+function playMusic(){
+    if (gameMusicIsPlaying == false){
+        soundEffects.gameMusic.play();
+        gameMusicIsPlaying = true;
+        if (translateTheGameButton.innerHTML = 'Português 🇧🇷'){
+            musicOnOff.innerHTML = 'ON';
+        }
+        else if (translateTheGameButton.innerHTML = 'English 🇺🇸'){
+            musicOnOff.innerHTML = 'SIM';
+        }
+        musicOnOff.style.backgroundColor = '';
+    }
+    else {
+        soundEffects.gameMusic.stop();
+        gameMusicIsPlaying = false;
+        if (translateTheGameButton.innerHTML = 'Português 🇧🇷'){
+            musicOnOff.innerHTML = 'OFF';
+        }
+        else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+            musicOnOff.innerHTML = 'NÃO';
+        }
+        musicOnOff.style.backgroundColor = 'red';
+    } 
+}
