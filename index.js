@@ -791,6 +791,7 @@ createSelectLevelsSection();
 
 const lockIcons = document.querySelectorAll('.bi-lock');
 const hyphenOnFooter = document.querySelector('footer span:nth-of-type(2)');
+hyphenOnFooter.classList.add('hidden');
 
 function hideSelectLevelsTotalArea(){
     selectLevelsTotalArea.classList.add('hidden');
@@ -988,28 +989,30 @@ const soundEffects = {
 };
 let gameMusicIsPlaying = false;
 
-const musicOnOff = document.querySelector('#playMusicButton span:nth-of-type(2)');
+const musicOnOffButton = document.querySelector('#playMusicButton');
 function playMusic(){
     if (gameMusicIsPlaying == false){
         soundEffects.gameMusic.play();
         gameMusicIsPlaying = true;
-        if (translateTheGameButton.innerHTML = 'Português 🇧🇷'){
-            musicOnOff.innerHTML = 'ON';
+        if (translateTheGameButton.innerHTML == 'Português 🇧🇷'){
+            musicOnOffButton.innerHTML = '<span>Music:</span><span>ON</span>';
         }
-        else if (translateTheGameButton.innerHTML = 'English 🇺🇸'){
-            musicOnOff.innerHTML = 'SIM';
+        else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+            musicOnOffButton.innerHTML = '<span>Música:</span><span>SIM</span>';
         }
-        musicOnOff.style.backgroundColor = '';
+        const spanOnOffMusic = document.querySelector('#playMusicButton span:nth-of-type(2)');
+        spanOnOffMusic.style.backgroundColor = '';
     }
     else {
         soundEffects.gameMusic.stop();
         gameMusicIsPlaying = false;
-        if (translateTheGameButton.innerHTML = 'Português 🇧🇷'){
-            musicOnOff.innerHTML = 'OFF';
+        if (translateTheGameButton.innerHTML == 'Português 🇧🇷'){
+            musicOnOffButton.innerHTML = '<span>Music:</span><span>OFF</span>';
         }
         else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
-            musicOnOff.innerHTML = 'NÃO';
+            musicOnOffButton.innerHTML = '<span>Música:</span><span>NÃO</span>';
         }
-        musicOnOff.style.backgroundColor = 'red';
+        const spanOnOffMusic = document.querySelector('#playMusicButton span:nth-of-type(2)');
+        spanOnOffMusic.style.backgroundColor = 'red';
     } 
 }
