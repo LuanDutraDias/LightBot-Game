@@ -220,47 +220,50 @@ function executeCommands(){
     }
     gameRunning = true; 
     delay = 1200;
-    for (let cmd of commandsToExecuteOnMain){
-        if (cmd === 'p1'){ 
-            for (let subCmd of commandsToExecuteOnP1){ 
-                if (subCmd === 'jump'){
+    for (let cmd = 0; cmd < commandsToExecuteOnMain.length; cmd++){
+        if (commandsToExecuteOnMain[0] !== 'jump' && cmd == 0){
+            delay = 0;
+        }
+        if (commandsToExecuteOnMain[cmd] === 'p1'){ 
+            for (let subCmd1 = 0; subCmd1 < commandsToExecuteOnP1.length; subCmd1++){ 
+                if (commandsToExecuteOnP1[subCmd1] === 'jump'){
                     const jumpAnimationTimeoutId = setTimeout(() => jumpAnimation(), delay - 600);
                     jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                     const prepareForJumpAnimationTimeoutId = setTimeout(() => prepareForJumpAnimation(), delay - 1200);
                     jumpAnimationTimeouts.push(prepareForJumpAnimationTimeoutId);
                 }
-                const soundEffectTimeoutId = setTimeout(() => runSoundEffect(subCmd), delay);
-                const commandTimeoutId = setTimeout(() => runCommand(subCmd), delay); 
+                const soundEffectTimeoutId = setTimeout(() => runSoundEffect(commandsToExecuteOnP1[subCmd1]), delay);
+                const commandTimeoutId = setTimeout(() => runCommand(commandsToExecuteOnP1[subCmd1]), delay); 
                 soundEffectsTimeouts.push(soundEffectTimeoutId);
                 commandTimeouts.push(commandTimeoutId);
-                if (subCmd === 'jump'){
+                if (commandsToExecuteOnP1[subCmd1 + 1] === 'jump'){
                     delay += 1800;
                 }
-                else if (subCmd === 'forward' || subCmd === 'light'){
-                    delay +=  600;
+                else if (commandsToExecuteOnP1[subCmd1] === 'forward' || commandsToExecuteOnP1[subCmd1] === 'light' ||  commandsToExecuteOnP1[subCmd1] === 'jump') {
+                    delay += 600;
                 }
                 else {
                     delay += 1200;
                 }
             } 
         } 
-        else if (cmd === 'p2'){ 
-            for (let subCmd of commandsToExecuteOnP2){ 
-                if (SourceBuffermd === 'jump'){
+        else if (commandsToExecuteOnMain[cmd] === 'p2'){ 
+            for (let subCmd2 = 0; subCmd2 < commandsToExecuteOnP2.length; subCmd2++){ 
+                if (commandsToExecuteOnP2[subCmd2] === 'jump'){
                     const jumpAnimationTimeoutId = setTimeout(() => jumpAnimation(), delay - 600);
                     jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                     const prepareForJumpAnimationTimeoutId = setTimeout(() => prepareForJumpAnimation(), delay - 1200);
                     jumpAnimationTimeouts.push(prepareForJumpAnimationTimeoutId);
                 }    
-                const soundEffectTimeoutId = setTimeout(() => runSoundEffect(subCmd), delay);
-                const commandTimeoutId = setTimeout(() => runCommand(subCmd), delay);
+                const soundEffectTimeoutId = setTimeout(() => runSoundEffect(commandsToExecuteOnP2[subCmd2]), delay);
+                const commandTimeoutId = setTimeout(() => runCommand(commandsToExecuteOnP2[subCmd2]), delay);
                 soundEffectsTimeouts.push(soundEffectTimeoutId);
                 commandTimeouts.push(commandTimeoutId);  
-                if (subCmd === 'jump'){
+                if (commandsToExecuteOnP2[subCmd2 + 1] === 'jump'){
                     delay += 1800;
                 }
-                    else if (subCmd === 'forward' || subCmd === 'light'){
-                    delay +=  600;
+                else if (commandsToExecuteOnP2[subCmd2] === 'forward' || commandsToExecuteOnP2[subCmd2] === 'light' ||          commandsToExecuteOnP2[subCmd2] === 'jump') {
+                    delay += 600;
                 }
                 else {
                     delay += 1200;
@@ -268,21 +271,21 @@ function executeCommands(){
             } 
         } 
         else{ 
-            if (cmd === 'jump'){
+            if (commandsToExecuteOnMain[cmd] === 'jump'){
                 const jumpAnimationTimeoutId = setTimeout(() => jumpAnimation(), delay - 600);
                 jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                 const prepareForJumpAnimationTimeoutId = setTimeout(() => prepareForJumpAnimation(), delay - 1200);
                 jumpAnimationTimeouts.push(prepareForJumpAnimationTimeoutId);
             }    
-            const soundEffectTimeoutId = setTimeout(() => runSoundEffect(cmd), delay);
-            const commandTimeoutId = setTimeout(() => runCommand(cmd), delay);
+            const soundEffectTimeoutId = setTimeout(() => runSoundEffect(commandsToExecuteOnMain[cmd]), delay);
+            const commandTimeoutId = setTimeout(() => runCommand(commandsToExecuteOnMain[cmd]), delay);
             soundEffectsTimeouts.push(soundEffectTimeoutId);
             commandTimeouts.push(commandTimeoutId); 
-            if (cmd === 'jump'){
-                delay += 1600;
+            if (commandsToExecuteOnMain[cmd + 1] === 'jump'){
+                delay += 1800;
             }
-            else if (cmd === 'forward' || cmd === 'light'){
-                delay +=  600;
+            else if (commandsToExecuteOnMain[cmd] === 'forward' || commandsToExecuteOnMain[cmd] === 'light' ||  commandsToExecuteOnMain[cmd] === 'jump') {
+                delay += 600;
             }
             else {
                 delay += 1200;
@@ -307,6 +310,8 @@ function handleDeath(){
     soundEffectsTimeouts = [];
     commandTimeouts.forEach(commandTimeoutId => clearTimeout(commandTimeoutId));
     commandTimeouts = [];
+    jumpAnimationTimeouts.forEach(jumpAnimationTimeouts => clearTimeout(jumpAnimationTimeouts));
+    jumpAnimationTimeouts = [];
     clearTimeout(levelResultWithNoDeathIdTimeout);
     setTimeout(() => {
         soundEffects.fallingIntoBlackHole.play();
@@ -640,6 +645,7 @@ function restartLevel(){
     gameRunning = false;
     soundEffectsTimeouts = [];
     commandTimeouts = [];
+    jumpAnimationTimeouts = [];
     selectLevelAfterResultButton.classList.add('hidden');
     enableAllButtons();
     createBoard();
@@ -656,6 +662,7 @@ function nextLevel(){
     level++;
     soundEffectsTimeouts = [];
     commandTimeouts = [];
+    jumpAnimationTimeouts = [];
     selectLevelAfterResultButton.classList.add('hidden');
     enableAllButtons();
     createBoard();
@@ -671,6 +678,7 @@ function selectLevel(){
     gameRunning = false;
     soundEffectsTimeouts = [];
     commandTimeouts = [];
+    jumpAnimationTimeouts = [];
     selectLevelAfterResultButton.classList.add('hidden');
     showSelectLevelsTotalArea();
     enableAllButtons();
