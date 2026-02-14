@@ -988,7 +988,6 @@ const soundEffects = {
     gameClear: new Howl({
         src: ['./audio/gameClear.mp3', './audio/gameClear.ogg'],
         volume: 0.2,
-        autoplay: true,
     }),
     levelClear: new Howl({
         src: ['./audio/levelClear.mp3', './audio/levelClear.ogg'],
