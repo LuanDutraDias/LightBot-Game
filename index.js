@@ -812,7 +812,7 @@ instructionsButton.innerHTML = 'Instructions'
 instructionsButton.addEventListener('click', showGameInstructionsTotalArea);
 const selectLevelsTitle = document.createElement('h1');
 selectLevelsHeader.appendChild(selectLevelsTitle);
-selectLevelsTitle.innerHTML = 'Welcome to the GAME: <span>LightBot</span>';
+selectLevelsTitle.innerHTML = 'Welcome to the GAME: <span>LoopBot</span>';
 const selectLevelsCommand = document.createElement('h2');
 selectLevelsHeader.appendChild(selectLevelsCommand);
 selectLevelsCommand.innerHTML = 'Select the <span>LEVEL</span>';
@@ -829,7 +829,7 @@ function translateTheGame(){
     const allRightsReserved = document.querySelector('footer span:nth-of-type(1)');
     if (translateTheGameButton.innerHTML === 'Português 🇧🇷'){
         translateTheGameButton.innerHTML = 'English 🇺🇸';
-        mainTitle.innerHTML = '<span>Bem-vindo ao JOGO:</span><span><span>L</span>ightBot</span>';
+        mainTitle.innerHTML = '<span>Bem-vindo ao JOGO:</span><span><span>L</span>oopBot</span>';
         mainButton.innerHTML = '<span>Principal</span>';
         mainDisplayTitle.innerHTML = 'PR<span>I</span>NCIPAL';
         selectLevelsAreaButton.innerHTML = 'Fases';
@@ -837,14 +837,14 @@ function translateTheGame(){
         tryAgainButton.innerHTML = 'Tentar Novamente';
         nextLevelButton.innerHTML = 'Próxima fase';
         selectLevelAfterResultButton.innerHTML = 'Fases';
-        selectLevelsTitle.innerHTML = 'Bem-vindo ao JOGO: <span>LightBot</span>';
+        selectLevelsTitle.innerHTML = 'Bem-vindo ao JOGO: <span>LoopBot</span>';
         selectLevelsCommand.innerHTML = 'Selecione a <span>FASE</span>';
         instructionsButton.innerHTML = 'Instruções';
         gameInstructionsTitle.innerHTML = 'Instruções do Jogo';
     }
     else if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
         translateTheGameButton.innerHTML = 'Português 🇧🇷';
-        mainTitle.innerHTML = '<span>Welcome to the GAME:</span><span><span>L</span>ightBot</span>';
+        mainTitle.innerHTML = '<span>Welcome to the GAME:</span><span><span>L</span>oop</span>';
         mainButton.innerHTML = '<span>MAIN</span>';
         mainDisplayTitle.innerHTML = 'MA<span>I</span>N';
         selectLevelsAreaButton.innerHTML = 'Levels';
@@ -852,7 +852,7 @@ function translateTheGame(){
         tryAgainButton.innerHTML = 'Try Again';
         nextLevelButton.innerHTML = 'Next Level';
         selectLevelAfterResultButton.innerHTML = 'Levels';
-        selectLevelsTitle.innerHTML = 'Welcome to the GAME: <span>LightBot</span>';
+        selectLevelsTitle.innerHTML = 'Welcome to the GAME: <span>LoopBot</span>';
         selectLevelsCommand.innerHTML = 'Select the <span>LEVEL</span>';
         instructionsButton.innerHTML = 'Instructions';
         gameInstructionsTitle.innerHTML = 'Game Instructions';
