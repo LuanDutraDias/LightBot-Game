@@ -123,10 +123,10 @@ function addMapElement(square, char){
 }
 
 function renderPlayer(){ 
-    if (level == 5 && gameRunning == false){
+    if (level === 5 && gameRunning === false){
         player.column = 1;
     }
-    else if (gameRunning == false){
+    else if (gameRunning === false){
         player.column = 0;
     }
     const square = document.getElementById(`square-${player.row}-${player.column}`);
@@ -136,7 +136,7 @@ function renderPlayer(){
 }
 
 function movePlayer() { 
-    if (isTheNextSquareOnTheMap() == false){
+    if (isTheNextSquareOnTheMap() === false){
         return;
     }    
     if (player.direction === 'up'){
@@ -215,21 +215,21 @@ function fallingAfterJumping(){
 let delay;
 function executeCommands(){
     disableAllButtons();
-    if (gameRunning == true || player.alive == false){
+    if (gameRunning === true || player.alive === false){
         return;
     }
     gameRunning = true; 
     delay = 1200;
     for (let cmd = 0; cmd < commandsToExecuteOnMain.length; cmd++){
-        if (commandsToExecuteOnMain[0] !== 'jump' && cmd == 0){
+        if (commandsToExecuteOnMain[0] !== 'jump' && cmd === 0){
             delay = 0;
         }
         if (commandsToExecuteOnMain[cmd] === 'p1'){ 
             for (let subCmd1 = 0; subCmd1 < commandsToExecuteOnP1.length; subCmd1++){ 
                 if (commandsToExecuteOnP1[subCmd1] === 'jump'){
                     const jumpAnimationTimeoutId = setTimeout(() => jumpAnimation(), delay - 600);
-                    jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                     const prepareForJumpAnimationTimeoutId = setTimeout(() => prepareForJumpAnimation(), delay - 1200);
+                    jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                     jumpAnimationTimeouts.push(prepareForJumpAnimationTimeoutId);
                 }
                 const soundEffectTimeoutId = setTimeout(() => runSoundEffect(commandsToExecuteOnP1[subCmd1]), delay);
@@ -239,11 +239,11 @@ function executeCommands(){
                 if (commandsToExecuteOnP1[subCmd1 + 1] === 'jump'){
                     delay += 1800;
                 }
-                else if (commandsToExecuteOnP1[subCmd1] === 'forward' || commandsToExecuteOnP1[subCmd1] === 'light' ||  commandsToExecuteOnP1[subCmd1] === 'jump') {
-                    delay += 600;
+                else if (commandsToExecuteOnP1[subCmd1] === 'right' || commandsToExecuteOnP1[subCmd1] === 'left') {
+                    delay += 1200;
                 }
                 else {
-                    delay += 1200;
+                    delay += 600;
                 }
             } 
         } 
@@ -251,8 +251,8 @@ function executeCommands(){
             for (let subCmd2 = 0; subCmd2 < commandsToExecuteOnP2.length; subCmd2++){ 
                 if (commandsToExecuteOnP2[subCmd2] === 'jump'){
                     const jumpAnimationTimeoutId = setTimeout(() => jumpAnimation(), delay - 600);
-                    jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                     const prepareForJumpAnimationTimeoutId = setTimeout(() => prepareForJumpAnimation(), delay - 1200);
+                    jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                     jumpAnimationTimeouts.push(prepareForJumpAnimationTimeoutId);
                 }    
                 const soundEffectTimeoutId = setTimeout(() => runSoundEffect(commandsToExecuteOnP2[subCmd2]), delay);
@@ -262,19 +262,19 @@ function executeCommands(){
                 if (commandsToExecuteOnP2[subCmd2 + 1] === 'jump'){
                     delay += 1800;
                 }
-                else if (commandsToExecuteOnP2[subCmd2] === 'forward' || commandsToExecuteOnP2[subCmd2] === 'light' ||          commandsToExecuteOnP2[subCmd2] === 'jump') {
-                    delay += 600;
+                else if (commandsToExecuteOnP2[subCmd2] === 'right' || commandsToExecuteOnP2[subCmd2] === 'left') {
+                    delay += 1200;
                 }
                 else {
-                    delay += 1200;
+                    delay += 600;
                 }
             } 
         } 
-        else{ 
+        else { 
             if (commandsToExecuteOnMain[cmd] === 'jump'){
                 const jumpAnimationTimeoutId = setTimeout(() => jumpAnimation(), delay - 600);
-                jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                 const prepareForJumpAnimationTimeoutId = setTimeout(() => prepareForJumpAnimation(), delay - 1200);
+                jumpAnimationTimeouts.push(jumpAnimationTimeoutId);
                 jumpAnimationTimeouts.push(prepareForJumpAnimationTimeoutId);
             }    
             const soundEffectTimeoutId = setTimeout(() => runSoundEffect(commandsToExecuteOnMain[cmd]), delay);
@@ -284,11 +284,11 @@ function executeCommands(){
             if (commandsToExecuteOnMain[cmd + 1] === 'jump'){
                 delay += 1800;
             }
-            else if (commandsToExecuteOnMain[cmd] === 'forward' || commandsToExecuteOnMain[cmd] === 'light' ||  commandsToExecuteOnMain[cmd] === 'jump') {
-                delay += 600;
+            else if (commandsToExecuteOnMain[cmd] === 'right' || commandsToExecuteOnMain[cmd] === 'left') {
+                delay += 1200;
             }
             else {
-                delay += 1200;
+                delay += 600;
             }
         } 
     }
@@ -303,9 +303,7 @@ function levelResultWithNoDeath(){
     }, delay + 650);
 }
 
-function handleDeath(){
-    player.alive = false;
-    gameRunning = false;
+function clearAllTimeouts(){
     soundEffectsTimeouts.forEach(soundEffectsTimeouts => clearTimeout(soundEffectsTimeouts));
     soundEffectsTimeouts = [];
     commandTimeouts.forEach(commandTimeoutId => clearTimeout(commandTimeoutId));
@@ -313,6 +311,18 @@ function handleDeath(){
     jumpAnimationTimeouts.forEach(jumpAnimationTimeouts => clearTimeout(jumpAnimationTimeouts));
     jumpAnimationTimeouts = [];
     clearTimeout(levelResultWithNoDeathIdTimeout);
+}
+
+function resetAllTimeoutsArrays(){
+    soundEffectsTimeouts = [];
+    commandTimeouts = [];
+    jumpAnimationTimeouts = [];
+}
+
+function handleDeath(){
+    player.alive = false;
+    gameRunning = false;
+    clearAllTimeouts()
     setTimeout(() => {
         soundEffects.fallingIntoBlackHole.play();
         robot.style.transition = 'transform 1.5s ease';
@@ -324,30 +334,30 @@ function handleDeath(){
 }
 
 function runSoundEffect(cmd){
-    if (cmd == 'forward'){
+    if (cmd === 'forward'){
         soundEffects.forward.play();
     }
-    else if (cmd == 'light'){
+    else if (cmd === 'light'){
         soundEffects.lightSwitch.play();
     }
-    else if (cmd == 'right'){
+    else if (cmd === 'right'){
         soundEffects.turnRight.play();
     }
-    else if (cmd == 'left'){
+    else if (cmd === 'left'){
         soundEffects.turnLeft.play();
     }
 }
 
 function runCommand(cmd){ 
-    if (cmd === 'forward' && isTheNextSquareOnTheMap() == true && isTheNextSquareLowerOrEqualPlayerHigh() == true){ 
+    if (cmd === 'forward' && isTheNextSquareOnTheMap() === true && isTheNextSquareLowerOrEqualPlayerHigh() === true){ 
         movePlayer(); 
-        if (isTheSquareSafe() == false){
+        if (isTheSquareSafe() === false){
             handleDeath(); 
         } 
     } 
-    else if (cmd === 'jump' && isTheNextSquareOnTheMap() && isTheNextSquareLowerOrEqualPlayerHigh() == false){ 
+    else if (cmd === 'jump' && isTheNextSquareOnTheMap() && isTheNextSquareLowerOrEqualPlayerHigh() === false){ 
         movePlayer(); 
-        if (isTheSquareSafe() == false){
+        if (isTheSquareSafe() === false){
             handleDeath(); 
         }    
     }
@@ -359,16 +369,16 @@ function runCommand(cmd){
     } 
     else if (cmd === 'light'){ 
         const currentSquare = document.getElementById(`square-${player.row}-${player.column}`); 
-        if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-low')){ 
+        if (currentSquare.style.backgroundColor === 'yellow' && currentSquare.classList.contains('ground-low')){ 
             currentSquare.style.background = 'linear-gradient(to top, green, mediumseagreen)'; 
         }
-        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-medium')){ 
+        else if (currentSquare.style.backgroundColor === 'yellow' && currentSquare.classList.contains('ground-medium')){ 
             currentSquare.style.background = 'linear-gradient(to top, mediumseagreen, mediumspringgreen)'; 
         }
-        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-high')){ 
+        else if (currentSquare.style.backgroundColor === 'yellow' && currentSquare.classList.contains('ground-high')){ 
             currentSquare.style.background = 'linear-gradient(to top, limegreen, lime)'; 
         }
-        else if (currentSquare.style.backgroundColor == 'yellow' && currentSquare.classList.contains('ground-light')){ 
+        else if (currentSquare.style.backgroundColor === 'yellow' && currentSquare.classList.contains('ground-light')){ 
             currentSquare.style.backgroundColor = 'white'; 
         }   
         else { 
@@ -516,21 +526,21 @@ function transformCommands(command){
 let p1Exists = false;
 let p2Exists = false;
 function getCommand(command){
-    if (command == 'main'){
+    if (command === 'main'){
         p1Exists = false;
         p2Exists = false;
     }
-    else if (command == 'p1'){
+    else if (command === 'p1'){
         p2Exists = false;
     }
-    else if (command == 'p2'){
+    else if (command === 'p2'){
         p1Exists = false;
     }
-    if (command == 'p1' || p1Exists == true){
+    if (command === 'p1' || p1Exists === true){
         addP1Commands(command);
         p1Exists = true;
     }
-    else if (command == 'p2' || p2Exists == true){
+    else if (command === 'p2' || p2Exists === true){
         addP2Commands(command);
         p2Exists = true;
     }
@@ -540,18 +550,18 @@ function getCommand(command){
 }
 
 function addMainCommands(command){
-    if (command == 'main'){
+    if (command === 'main'){
         return;
     }
-    else if (command == 'undo' && counter == 0){
+    else if (command === 'undo' && counter === 0){
         return;
     } 
-    else if (command == 'undo'){ 
+    else if (command === 'undo'){ 
         commandsToAppearOnMain.pop();
         commandsToExecuteOnMain.pop();
         displayMain.innerHTML = commandsToAppearOnMain.join(''); 
         counter--;
-    } else if (command == 'reset'){
+    } else if (command === 'reset'){
         commandsToAppearOnMain = [];
         commandsToExecuteOnMain = [];
         displayMain.innerHTML = commandsToAppearOnMain.join('');
@@ -566,19 +576,19 @@ function addMainCommands(command){
 }
 
 function addP1Commands(command){
-    if (command == 'p1' || command == 'p2'){
+    if (command === 'p1' || command === 'p2'){
         addMainCommands(command);
         return;
     }
-    else if (command == 'undo' && counterP1 == 0){
+    else if (command === 'undo' && counterP1 === 0){
         return;
     } 
-    else if (command == 'undo'){ 
+    else if (command === 'undo'){ 
         commandsToAppearOnP1.pop();
         commandsToExecuteOnP1.pop();
         displayP1.innerHTML = commandsToAppearOnP1.join(''); 
         counterP1--;
-    } else if (command == 'reset'){
+    } else if (command === 'reset'){
         commandsToAppearOnP1 = [];
         commandsToExecuteOnP1 = [];
         displayP1.innerHTML = commandsToAppearOnP1.join('');
@@ -593,19 +603,19 @@ function addP1Commands(command){
 }
 
 function addP2Commands(command){
-    if (command == 'p1' || command == 'p2'){
+    if (command === 'p1' || command === 'p2'){
         addMainCommands(command);
         return;
     }
-    else if (command == 'undo' && counterP2 == 0){
+    else if (command === 'undo' && counterP2 === 0){
         return;
     } 
-    else if (command == 'undo'){ 
+    else if (command === 'undo'){ 
         commandsToAppearOnP2.pop();
         commandsToExecuteOnP2.pop();
         displayP2.innerHTML = commandsToAppearOnP2.join(''); 
         counterP2--;
-    } else if (command == 'reset'){
+    } else if (command === 'reset'){
         commandsToAppearOnP2 = [];
         commandsToExecuteOnP2 = [];
         displayP2.innerHTML = commandsToAppearOnP2.join('');
@@ -643,10 +653,8 @@ function resetCommands(){
 function restartLevel(){
     player.alive = true;
     gameRunning = false;
-    soundEffectsTimeouts = [];
-    commandTimeouts = [];
-    jumpAnimationTimeouts = [];
     selectLevelAfterResultButton.classList.add('hidden');
+    resetAllTimeoutsArrays();
     enableAllButtons();
     createBoard();
     resetPlayerPosition();
@@ -660,10 +668,8 @@ function nextLevel(){
     player.alive = true;
     gameRunning = false;
     level++;
-    soundEffectsTimeouts = [];
-    commandTimeouts = [];
-    jumpAnimationTimeouts = [];
     selectLevelAfterResultButton.classList.add('hidden');
+    resetAllTimeoutsArrays();
     enableAllButtons();
     createBoard();
     resetPlayerPosition();
@@ -676,10 +682,8 @@ function nextLevel(){
 function selectLevel(){
     player.alive = true;
     gameRunning = false;
-    soundEffectsTimeouts = [];
-    commandTimeouts = [];
-    jumpAnimationTimeouts = [];
     selectLevelAfterResultButton.classList.add('hidden');
+    resetAllTimeoutsArrays();
     showSelectLevelsTotalArea();
     enableAllButtons();
     createBoard();
@@ -701,7 +705,7 @@ function allTilesHaveBeenLit(){
     let allLightsOn = true;
     const squares = document.querySelectorAll('.ground-light');
     squares.forEach(square => {
-        if (square.style.backgroundColor != 'yellow'){
+        if (square.style.backgroundColor !== 'yellow'){
             allLightsOn = false;
         }
     });
@@ -711,10 +715,10 @@ function allTilesHaveBeenLit(){
 function levelResult(){
     hideResultOverlay();
     selectLevelAfterResultButton.classList.remove('hidden');
-    if(allTilesHaveBeenLit() == true && player.alive == true){
+    if(allTilesHaveBeenLit() === true && player.alive === true){
         soundEffects.levelClear.play();
         completedLevels[level - 1] = true;
-        if (level != 6){
+        if (level !== 6){
             lockIcons[level - 1].classList.remove('bi-lock');
             selectLevelButton[level].classList.remove('notAvailable');
             selectLevelButton[level].removeAttribute('disabled');
@@ -722,15 +726,15 @@ function levelResult(){
         feedback.style.color = 'yellow';
         resultOverlay.classList.remove('hidden');
         feedback.classList.remove('hidden');
-        if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+        if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
             feedback.textContent = 'FASE CONCLUÍDA';
         }
         else {
             feedback.textContent = 'LEVEL CLEAR';
         }
-        if (allLevelsAreCompleted() == true){ 
+        if (allLevelsAreCompleted() === true){ 
             soundEffects.gameClear.play();
-            if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+            if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
                 feedback.textContent = 'Você ZEROU o Jogo!';
             }
             else {
@@ -744,7 +748,7 @@ function levelResult(){
     else {
         soundEffects.gameOver.play();
         feedback.style.color = 'red';
-        if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+        if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
             feedback.textContent = 'Você Perdeu!';
         }
         else {
@@ -773,7 +777,7 @@ function enableAllButtons(){
 function allLevelsAreCompleted(){
     let gameClear = true;
     completedLevels.forEach(level => {
-        if (level == false){
+        if (level === false){
             gameClear = false;
         }
     });
@@ -809,7 +813,7 @@ function translateTheGame(){
     const mainDisplayTitle = document.querySelector('.display p:nth-of-type(1)');
     const selectLevelsAreaButton = document.querySelector('#selectLevelBtn');
     const allRightsReserved = document.querySelector('footer span:nth-of-type(1)');
-    if (translateTheGameButton.innerHTML == 'Português 🇧🇷'){
+    if (translateTheGameButton.innerHTML === 'Português 🇧🇷'){
         translateTheGameButton.innerHTML = 'English 🇺🇸';
         mainTitle.innerHTML = '<span>Bem-vindo ao JOGO:</span><span><span>L</span>ightBot</span>';
         mainButton.innerHTML = '<span>Principal</span>';
@@ -824,7 +828,7 @@ function translateTheGame(){
         instructionsButton.innerHTML = 'Instruções';
         gameInstructionsTitle.innerHTML = 'Instruções do Jogo';
     }
-    else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+    else if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
         translateTheGameButton.innerHTML = 'Português 🇧🇷'
         mainTitle.innerHTML = '<span>Welcome to the GAME:</span><span><span>L</span>ightBot</span>';
         mainButton.innerHTML = '<span>MAIN</span>';
@@ -851,7 +855,7 @@ function createSelectLevelsSection(){
         selectLevelButton[level - 1].innerHTML = level;
         selectLevelsSection.appendChild(selectLevelButton[level - 1]);
         selectLevelButton[level - 1].classList.add('squareLevel');
-        if (level != 1){
+        if (level !== 1){
             selectLevelButton[level - 1].classList.add('notAvailable');
             selectLevelButton[level - 1].innerHTML += '<i class="bi bi-lock"></i>';
         }
@@ -870,16 +874,17 @@ function hideSelectLevelsTotalArea(){
 
 function showSelectLevelsTotalArea(){
     selectLevelsTotalArea.classList.remove('hidden');
-    if (level == 6){
+    if (level === 6){
         hyphenOnFooter.classList.remove('hidden');
     }
 }
 
 selectLevelButton[0].addEventListener('click', function(){
     level = 1;
-    if (gameMusicIsPlaying == false){
+    if (gameMusicPlayedForTheFirstTime === false){
         soundEffects.gameMusic.play();
         gameMusicIsPlaying = true;
+        gameMusicPlayedForTheFirstTime = true;
     }
     createBoard();
     hideSelectLevelsTotalArea();
@@ -920,12 +925,12 @@ function showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel(){
     turnRightButton.classList.remove('hidden');
     turnLeftButton.classList.remove('hidden');
     jumpButton.classList.remove('hidden');
-    if (level == 1){
+    if (level === 1){
         turnRightButton.classList.add('hidden');
         turnLeftButton.classList.add('hidden');
         jumpButton.classList.add('hidden');
     }
-    else if (level == 2){
+    else if (level === 2){
         jumpButton.classList.add('hidden');
     }
 }
@@ -933,7 +938,7 @@ function showAndHideTheButtonsThatAreAvailableOnTheCurrentLevel(){
 function changeLevel6Design(){
     const letterL = document.querySelector('header h1 span:nth-of-type(2) span');
     const letterI = document.querySelector('.display span');
-    if (level == 6){
+    if (level === 6){
         const blackHole = document.querySelectorAll('.ground-empty');
         blackHole.forEach(blackHole => {
             blackHole.style.background = 'linear-gradient(to top, green, mediumseagreen)';
@@ -1058,16 +1063,17 @@ const soundEffects = {
     }),
 };
 let gameMusicIsPlaying = false;
+let gameMusicPlayedForTheFirstTime = false;
 
 const musicOnOffButton = document.querySelector('#playMusicButton');
 function playMusic(){
-    if (gameMusicIsPlaying == false){
+    if (gameMusicIsPlaying === false){
         soundEffects.gameMusic.play();
         gameMusicIsPlaying = true;
-        if (translateTheGameButton.innerHTML == 'Português 🇧🇷'){
+        if (translateTheGameButton.innerHTML === 'Português 🇧🇷'){
             musicOnOffButton.innerHTML = '<span>Music:</span><span>ON</span>';
         }
-        else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+        else if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
             musicOnOffButton.innerHTML = '<span>Música:</span><span>SIM</span>';
         }
         const spanOnOffMusic = document.querySelector('#playMusicButton span:nth-of-type(2)');
@@ -1076,10 +1082,10 @@ function playMusic(){
     else {
         soundEffects.gameMusic.stop();
         gameMusicIsPlaying = false;
-        if (translateTheGameButton.innerHTML == 'Português 🇧🇷'){
+        if (translateTheGameButton.innerHTML === 'Português 🇧🇷'){
             musicOnOffButton.innerHTML = '<span>Music:</span><span>OFF</span>';
         }
-        else if (translateTheGameButton.innerHTML == 'English 🇺🇸'){
+        else if (translateTheGameButton.innerHTML === 'English 🇺🇸'){
             musicOnOffButton.innerHTML = '<span>Música:</span><span>NÃO</span>';
         }
         const spanOnOffMusic = document.querySelector('#playMusicButton span:nth-of-type(2)');
