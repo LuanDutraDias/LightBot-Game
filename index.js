@@ -72,11 +72,11 @@ const maps = [
         'ebcad',
     ],
     [
-        'aeaaa',    
-        'aeaed',
-        'aeaee',
-        'aeaee',
-        'aaaee',
+        'ceccc',    
+        'ceced',
+        'cecee',
+        'cecee',
+        'cccee',
     ],
 ];
 
@@ -86,7 +86,7 @@ function changeLevel6Design(){
     if (level === 6){
         const blackHole = document.querySelectorAll('.ground-empty');
         blackHole.forEach(blackHole => {
-            blackHole.style.background = 'linear-gradient(to top, green, mediumseagreen)';
+            blackHole.style.background = 'linear-gradient(to top, limegreen, lime)';
         })
         letterL.style.color = 'rgb(0, 255, 0)';
         letterI.style.color = 'rgb(0, 255, 0)';
