@@ -883,7 +883,7 @@ function createSelectLevelsSection(){
         selectLevelButton[level - 1].classList.add('squareLevel');
         if (level !== 1){
             selectLevelButton[level - 1].classList.add('notAvailable');
-            selectLevelButton[level - 1].setAttribute('disabled', '');
+           
             selectLevelButton[level - 1].innerHTML += '<i class="bi bi-lock"></i>';
         }
     });
@@ -892,17 +892,18 @@ createSelectLevelsSection();
 
 const lockIcons = document.querySelectorAll('.bi-lock');
 const hyphenOnFooter = document.querySelector('footer span:nth-of-type(2)');
-hyphenOnFooter.classList.add('hidden');
 
 function hideSelectLevelsTotalArea(){
     selectLevelsTotalArea.classList.add('hidden');
-    hyphenOnFooter.classList.add('hidden');
+    hyphenOnFooter.innerHTML = '|';
+    hyphenOnFooter.classList.remove('green');
 }
 
 function showSelectLevelsTotalArea(){
     selectLevelsTotalArea.classList.remove('hidden');
     if (level === 6){
-        hyphenOnFooter.classList.remove('hidden');
+        hyphenOnFooter.innerHTML = '-';
+        hyphenOnFooter.classList.add('green');
     }
 }
 
