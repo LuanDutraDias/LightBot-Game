@@ -306,8 +306,8 @@ footer {
     align-items: center;
 }
 
-footer span:nth-of-type(1) {
-    font-size: clamp(10px, 1vw, 20px);
+footer span {
+    font-size: clamp(9px, 2vh, 14px);
 }
 
 footer a {
@@ -315,10 +315,10 @@ footer a {
     display: inline-block;
     background-color: rgb(23, 146, 234);
     border-radius: 10px;
-    padding: clamp(5px, 1vw, 8px);
+    padding: clamp(3px, 1.3vh, 8px);
     text-decoration: none;
-    font-size: clamp(10px, 1vw, 20px);
-    margin: 0 8px;
+    font-size: clamp(9px, 2vh, 14px);
+    margin: 0 6px;
 }
 
 footer a:hover {
@@ -326,14 +326,10 @@ footer a:hover {
     transform: scale(1.015);
 }
 
-footer span:nth-of-type(2) {
+footer span:nth-of-type(2).green {
     color: rgb(0, 255, 0);
     display: inline-block;
-    transform: scale(2);
-}
-
-footer span:nth-of-type(2).hidden{
-    display: none;
+    transform: scale(1.5);
 }
 
 #resultOverlay {
@@ -481,7 +477,8 @@ footer span:nth-of-type(2).hidden{
 
 .squareLevel {
     background-color: white;
-    font-size: clamp(22px, 4vh, 30px);
+    font-size: clamp(23px, 4.2vh, 29px);
+    aspect-ratio: 1.4 / 1;
     height: 100%;
     display: flex;
     justify-content: center;
