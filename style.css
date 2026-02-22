@@ -152,7 +152,8 @@ main {
     background-color: rgb(23, 146, 234);
     font-size: clamp(17px, 2.9vh, 26px);
     min-width: 60px;
-    max-width: 100px;
+    max-width: 120px;
+    width: fit-content;
 }
 
 .controls button:hover {
